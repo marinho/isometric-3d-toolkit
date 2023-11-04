@@ -1,0 +1,13 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://cp1wj0mhmxyr2"]
+
+[ext_resource type="Shader" path="res://addons/isometric_3d_engine/shaders/ripple.gdshader" id="1_gtidc"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_gtidc")
+shader_parameter/speed = 0.3
+shader_parameter/radius = 0.45
+shader_parameter/stroke = 0.05
+shader_parameter/color = Color(0, 1, 0, 1)
+shader_parameter/inwards = false
+shader_parameter/alphaExtrapolation = 1.0

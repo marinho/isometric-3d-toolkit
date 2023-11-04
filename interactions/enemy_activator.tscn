@@ -1,0 +1,24 @@
+[gd_scene load_steps=3 format=3 uid="uid://wrawiv6bn1vi"]
+
+[ext_resource type="Script" path="res://addons/isometric_3d_engine/interactions/ActivatorArea.cs" id="1_8ob3m"]
+[ext_resource type="Script" path="res://addons/isometric_3d_engine/interactions/EnemyAreaTrigger.cs" id="3_ecb5o"]
+
+[node name="Enemies Area" type="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.46266)
+collision_layer = 4
+collision_mask = 6
+script = ExtResource("1_8ob3m")
+CanInputAction = false
+ActivatedByEnemy = true
+
+[node name="Enemy Trigger" type="Node3D" parent="." node_paths=PackedStringArray("ChildrenArea")]
+script = ExtResource("3_ecb5o")
+ActionTypeOnEnter = 3
+ActionTypeOnExit = 4
+TriggerType = 1
+ChildrenArea = NodePath("..")
+
+[connection signal="ActivateWithBody" from="." to="Enemy Trigger" method="CharacterEntered"]
+[connection signal="DeactivateWithBody" from="." to="Enemy Trigger" method="CharacterExited"]
+[connection signal="body_entered" from="." to="." method="_OnBodyEntered"]
+[connection signal="body_exited" from="." to="." method="_OnBodyExited"]

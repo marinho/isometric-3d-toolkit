@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://dof3g5grbxsxa"]
+
+[ext_resource type="Script" path="res://addons/isometric_3d_engine/interactions/ActivatorArea.cs" id="1_eiv6h"]
+
+[node name="activator" type="Area3D"]
+collision_mask = 2
+script = ExtResource("1_eiv6h")
+
+[connection signal="body_entered" from="." to="." method="_OnBodyEntered"]
+[connection signal="body_exited" from="." to="." method="_OnBodyExited"]

@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://c8qhg5pvsjjvk"]
+
+[ext_resource type="Script" path="res://addons/isometric_3d_engine/core/AreaOfLastGroundPosition.cs" id="1_50lo0"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_dy1yb"]
+size = Vector3(29.0606, 1.96045, 43.9978)
+
+[node name="Area of Last Ground Position" type="Area3D"]
+collision_mask = 2
+script = ExtResource("1_50lo0")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_dy1yb")
+
+[connection signal="body_exited" from="." to="." method="_OnBodyExited"]

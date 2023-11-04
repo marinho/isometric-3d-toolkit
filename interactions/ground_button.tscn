@@ -1,0 +1,43 @@
+[gd_scene load_steps=9 format=3 uid="uid://t3nfewge7rhp"]
+
+[ext_resource type="Script" path="res://addons/isometric_3d_engine/interactions/GroundButton.cs" id="1_nlx2h"]
+[ext_resource type="Material" uid="uid://nnb3duyngffu" path="res://materials/semaphore_green.tres" id="2_2ohw7"]
+[ext_resource type="Material" uid="uid://cn2fxffjite1e" path="res://materials/semaphore_gray.tres" id="3_un3nh"]
+[ext_resource type="PackedScene" uid="uid://dof3g5grbxsxa" path="res://addons/isometric_3d_engine/interactions/activator.tscn" id="4_7b1uw"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_mmt8w"]
+size = Vector3(1, 0.2, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_njnuw"]
+size = Vector3(0.95, 0.3, 0.95)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tnipi"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_r3pbb"]
+material = SubResource("StandardMaterial3D_tnipi")
+size = Vector2(1.6, 1.6)
+
+[node name="Ground Button" type="Node3D" node_paths=PackedStringArray("ButtonNode")]
+script = ExtResource("1_nlx2h")
+ButtonNode = NodePath("Button")
+UnpressedMaterial = ExtResource("2_2ohw7")
+PressedMaterial = ExtResource("3_un3nh")
+PressedOffset = Vector3(0, -0.08, 0)
+
+[node name="Button" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_mmt8w")
+skeleton = NodePath("../..")
+surface_material_override/0 = ExtResource("2_2ohw7")
+
+[node name="activator" parent="Button" instance=ExtResource("4_7b1uw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+CanInputAction = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Button/activator"]
+shape = SubResource("BoxShape3D_njnuw")
+
+[node name="Base Plane" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaneMesh_r3pbb")
+
+[connection signal="Activate" from="Button/activator" to="." method="Activate"]
+[connection signal="Deactivate" from="Button/activator" to="." method="Deactivate"]

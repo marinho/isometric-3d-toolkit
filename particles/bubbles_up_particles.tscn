@@ -1,0 +1,29 @@
+[gd_scene load_steps=4 format=3 uid="uid://h1iicsvsq36o"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_7r06v"]
+emission_shape = 3
+emission_box_extents = Vector3(0.7, 0, 0.7)
+direction = Vector3(0, 1, 0)
+spread = 1.0
+gravity = Vector3(0, 1, 0)
+initial_velocity_max = 1.0
+scale_min = 0.5
+scale_max = 1.5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ktn83"]
+transparency = 1
+albedo_color = Color(0.580392, 0, 0.572549, 0.709804)
+
+[sub_resource type="SphereMesh" id="SphereMesh_d0a5k"]
+material = SubResource("StandardMaterial3D_ktn83")
+radius = 0.05
+height = 0.1
+
+[node name="Bubbles Emission Particles" type="GPUParticles3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0474055, 0)
+amount = 20
+lifetime = 2.0
+speed_scale = 0.2
+visibility_aabb = AABB(-0.386, 0.0129929, -0.378, 0.771, 1.24818, 0.755)
+process_material = SubResource("ParticleProcessMaterial_7r06v")
+draw_pass_1 = SubResource("SphereMesh_d0a5k")
