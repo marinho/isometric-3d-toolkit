@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://bxq6nkni1yxir"]
 
-[ext_resource type="Script" path="res://addons/isometric_3d_engine/interactions/ActivatorManager.cs" id="1_4yddh"]
+[ext_resource type="Script" path="res://addons/isometric_3d_engine/src/interactions/ActivatorManager.cs" id="1_4yddh"]
 [ext_resource type="Texture2D" uid="uid://bdq0i7pq7bl8y" path="res://ui/ui-sprites/input-controls-button.png" id="2_367vn"]
 [ext_resource type="Theme" uid="uid://bck164mgxuswr" path="res://ui/themes/basic_ui_theme.tres" id="2_vdwn5"]
 
