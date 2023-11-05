@@ -1,6 +1,6 @@
 [gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://cp1wj0mhmxyr2"]
 
-[ext_resource type="Shader" path="res://addons/isometric_3d_engine/shaders/ripple.gdshader" id="1_gtidc"]
+[ext_resource type="Shader" path="res://addons/isometric_3d_engine/src/shaders/ripple.gdshader" id="1_gtidc"]
 
 [resource]
 render_priority = 0

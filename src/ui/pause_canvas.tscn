@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://bwhxv1wnl2emj"]
 
 [ext_resource type="Theme" uid="uid://bck164mgxuswr" path="res://ui/themes/basic_ui_theme.tres" id="1_2lddp"]
-[ext_resource type="Script" path="res://addons/isometric_3d_engine/ui/pause_canvas.gd" id="1_bo800"]
+[ext_resource type="Script" path="res://addons/isometric_3d_engine/src/ui/pause_canvas.gd" id="1_bo800"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rmn37"]
 

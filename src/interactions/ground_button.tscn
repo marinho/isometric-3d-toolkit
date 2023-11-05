@@ -1,9 +1,9 @@
 [gd_scene load_steps=9 format=3 uid="uid://t3nfewge7rhp"]
 
-[ext_resource type="Script" path="res://addons/isometric_3d_engine/interactions/GroundButton.cs" id="1_nlx2h"]
+[ext_resource type="Script" path="res://addons/isometric_3d_engine/src/interactions/GroundButton.cs" id="1_nlx2h"]
 [ext_resource type="Material" uid="uid://nnb3duyngffu" path="res://materials/semaphore_green.tres" id="2_2ohw7"]
 [ext_resource type="Material" uid="uid://cn2fxffjite1e" path="res://materials/semaphore_gray.tres" id="3_un3nh"]
-[ext_resource type="PackedScene" uid="uid://dof3g5grbxsxa" path="res://addons/isometric_3d_engine/interactions/activator.tscn" id="4_7b1uw"]
+[ext_resource type="PackedScene" uid="uid://dof3g5grbxsxa" path="res://addons/isometric_3d_engine/src/interactions/activator.tscn" id="4_7b1uw"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_mmt8w"]
 size = Vector3(1, 0.2, 1)

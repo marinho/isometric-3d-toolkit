@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://dwjpecymm8j7f"]
 
-[ext_resource type="Script" path="res://addons/isometric_3d_engine/core/SceneManager.cs" id="1_617w4"]
+[ext_resource type="Script" path="res://addons/isometric_3d_engine/src/core/SceneManager.cs" id="1_617w4"]
 [ext_resource type="PackedScene" uid="uid://3t8b3fgfqhir" path="res://resources/audio_stream_player_3d.tscn" id="2_f247i"]
 
 [node name="scene_manager" type="Node"]

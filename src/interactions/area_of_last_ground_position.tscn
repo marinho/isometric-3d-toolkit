@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://c8qhg5pvsjjvk"]
 
-[ext_resource type="Script" path="res://addons/isometric_3d_engine/core/AreaOfLastGroundPosition.cs" id="1_50lo0"]
+[ext_resource type="Script" path="res://addons/isometric_3d_engine/src/core/AreaOfLastGroundPosition.cs" id="1_50lo0"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_dy1yb"]
 size = Vector3(29.0606, 1.96045, 43.9978)
