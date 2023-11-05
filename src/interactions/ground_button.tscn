@@ -29,8 +29,9 @@ mesh = SubResource("BoxMesh_mmt8w")
 skeleton = NodePath("../..")
 surface_material_override/0 = ExtResource("2_2ohw7")
 
-[node name="activator" parent="Button" instance=ExtResource("4_7b1uw")]
+[node name="activator" parent="Button" node_paths=PackedStringArray("Activable") instance=ExtResource("4_7b1uw")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+Activable = NodePath("../..")
 CanInputAction = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Button/activator"]
@@ -38,6 +39,3 @@ shape = SubResource("BoxShape3D_njnuw")
 
 [node name="Base Plane" type="MeshInstance3D" parent="."]
 mesh = SubResource("PlaneMesh_r3pbb")
-
-[connection signal="Activate" from="Button/activator" to="." method="Activate"]
-[connection signal="Deactivate" from="Button/activator" to="." method="Deactivate"]

@@ -27,7 +27,7 @@ namespace Isometric3DEngine
         public Color Color07 = new Color(1.0f, 0.0f, 0.0f, 1.0f); // Red
 
         [Export]
-        public Color Color14 = new Color(0.5f, 0.5f, 0.5f, 1.0f); // Gray
+        public Color Color14 = new Color(0.3f, 0.3f, 0.3f, 1.0f); // Gray
 
         [Export]
         public Color Color15 = new Color(1.0f, 1.0f, 1.0f, 1.0f); // White

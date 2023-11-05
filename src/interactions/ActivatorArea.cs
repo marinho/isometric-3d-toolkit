@@ -114,6 +114,8 @@ namespace Isometric3DEngine
                 InputActionCounter++;
                 TimeToAllowNextAction = TimeBeforeNextInputAction;
 
+                if (Activable != null)
+                    (Activable as IActivable).ActivatorAction();
                 EmitSignal(EventHandler.InputAction.ToString());
             }
         }
@@ -138,7 +140,9 @@ namespace Isometric3DEngine
                 PlaySound(ActivateSound);
 
             Character = (ICharacter)body;
-            // emit signal that player entered the area
+
+            if (Activable != null)
+                (Activable as IActivable).Activate();
             EmitSignal(EventHandler.Activate.ToString());
             EmitSignal(EventHandler.ActivateWithBody.ToString(), body);
         }
@@ -151,7 +155,8 @@ namespace Isometric3DEngine
             if (CanInputAction)
                 SetTriggerInputAvailable(false);
 
-            // emit signal that player exited the area
+            if (Activable != null)
+                (Activable as IActivable).Deactivate();
             EmitSignal(EventHandler.Deactivate.ToString());
             EmitSignal(EventHandler.DeactivateWithBody.ToString(), body);
 
