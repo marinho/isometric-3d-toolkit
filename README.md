@@ -24,6 +24,26 @@ That's how I do it:
 2. In a terminal window, execute: `git submodule add https://github.com/marinho/isometric-3d-engine.git isometric_3d_engine`
 3. Try using the C# scripts in your nodes (I will soon provide a folder "examples" with a playground level and some exemples)
 
+### Collider Layers
+
+This toolkit is agnostic about how one setup collider layers, but it's recommended to use them to keep the code clean. The list below is just a suggestion.
+
+| Layer | Name | Description
+|---|---|---
+| 1 | Static | Default layer used for ground, decoration and other objects with no relevant interaction
+| 2 | Player | Used for the player body only
+| 3 | Enemies | Used for enemies the player interact with
+| 4 | Enemy to ignore | Invisible walls and other objects the enemies interact with but the player doesn't
+| 5 | NPCs | Used for non player characters (such as story characters)
+| 6 | Items | Used for collectable items
+
+### Node groups
+
+For some particular nodes, we use groups to distinguish player from enemies, but for the future, we tend to replace either them by collider layers or properties.
+
+* Player
+* Enemy
+
 ## How to contribute
 
 Please bear in mind this repository isn't aimed to become a well refined community-ready project, as I mostly have no time for such. Therefore, go ahead and fork the repository and make changes for your own need, and in case you see it can be helpful to share, feel free to create issues and pull requests, but don't expect much of my response 😉

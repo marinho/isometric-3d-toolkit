@@ -7,6 +7,7 @@ namespace Isometric3DEngine
     {
         public enum MovementTypes
         {
+            Idle,
             Move,
             Jump,
         }
@@ -18,13 +19,22 @@ namespace Isometric3DEngine
         public float RandomDirection = 1f;
 
         [Export]
-        public double TimeToJump = 3f;
+        public double TimeToChangeDirection = 3f;
+
+        [Export]
+        public double TimeToNextJump = 3f;
 
         [Export]
         public float JumpVelocity = 4.5f;
 
         [Export]
+        public float FallingVelocity = 1f;
+
+        [Export]
         public bool SeekTheTarget;
+
+        [Signal]
+        public delegate void OnMoveEventHandler();
 
         [Signal]
         public delegate void OnJumpEventHandler();
@@ -34,9 +44,11 @@ namespace Isometric3DEngine
 
         bool _AlreadyOnFloor = false;
         double _TimeToChangeDirectionCounter = 0f;
+        double _TimeToNextJumpCounter = 0f;
         float gravity = ProjectSettings.GetSetting("physics/3d/default_gravity").AsSingle();
         public Node3D Target;
         bool ShouldMoveToTarget => SeekTheTarget && Target != null;
+        Vector3 CurrentDirection;
 
         private Vector3 GetRandomDirection()
         {
@@ -55,7 +67,7 @@ namespace Isometric3DEngine
             Vector3 velocity = body.Velocity;
 
             _TimeToChangeDirectionCounter += delta;
-            var itsTimeToChangeDirection = _TimeToChangeDirectionCounter >= TimeToJump;
+            _TimeToNextJumpCounter += delta;
 
             if (MovementType == MovementTypes.Jump && !_AlreadyOnFloor && body.IsOnFloor())
             {
@@ -64,45 +76,50 @@ namespace Isometric3DEngine
             }
 
             if (!body.IsOnFloor())
-                velocity.Y -= gravity * (float)delta;
-            else if (itsTimeToChangeDirection)
             {
-                if (MovementType == MovementTypes.Jump)
-                    velocity.Y = JumpVelocity;
-
-                _TimeToChangeDirectionCounter = 0f;
-
-                Vector3 simpleDirection = ShouldMoveToTarget
-                    ? Target.Position
-                    : GetRandomDirection();
-                Vector3 direction = (body.Transform.Basis * simpleDirection).Normalized();
-
-                velocity.X = direction.X * speed;
-                velocity.Z = direction.Z * speed;
-
-                if (ShouldMoveToTarget)
-                {
-                    LookAt(Target.Position, Vector3.Up);
-                }
-                else
-                {
-                    float magicUnexplainableNumber = 5f;
-                    LookAt(
-                        body.Position + (simpleDirection * magicUnexplainableNumber),
-                        Vector3.Up
-                    );
-                }
-
-                EmitSignal("OnJump");
+                velocity.Y -= gravity * (float)delta * FallingVelocity;
             }
-            else
+            else if (MovementType != MovementTypes.Idle)
             {
-                velocity.X = Mathf.MoveToward(body.Velocity.X, 0, speed);
-                velocity.Z = Mathf.MoveToward(body.Velocity.Z, 0, speed);
+                var itsTimeToChangeDirection =
+                    _TimeToChangeDirectionCounter >= TimeToChangeDirection;
+                var itsTimeToNextJump = _TimeToNextJumpCounter >= TimeToNextJump;
+
+                if (itsTimeToChangeDirection)
+                {
+                    _TimeToChangeDirectionCounter = 0f;
+
+                    Vector3 simpleDirection = ShouldMoveToTarget
+                        ? Target.Position
+                        : GetRandomDirection();
+                    CurrentDirection = (body.Transform.Basis * simpleDirection).Normalized();
+
+                    LookAtDirection(body, CurrentDirection);
+                }
+
+                if (MovementType == MovementTypes.Move)
+                {
+                    velocity.X = CurrentDirection.X * speed;
+                    velocity.Z = CurrentDirection.Z * speed;
+                    EmitSignal("OnMove");
+                }
+                else if (MovementType == MovementTypes.Jump && itsTimeToNextJump)
+                {
+                    velocity.Y = JumpVelocity;
+                    EmitSignal("OnJump");
+                }
             }
 
             body.Velocity = velocity;
             body.MoveAndSlide();
+        }
+
+        private void LookAtDirection(CharacterBody3D body, Vector3 direction)
+        {
+            if (ShouldMoveToTarget)
+                body.LookAt(Target.Position, Vector3.Up);
+            else
+                body.LookAt(body.GlobalPosition + direction, Vector3.Up);
         }
 
         public void SetTarget(Node3D target)
