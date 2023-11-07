@@ -6,13 +6,13 @@ namespace Isometric3DEngine
     public partial class CameraShaker : Node
     {
         [Export]
-        Node3D Target;
+        public Node3D Target;
 
         [Export]
-        float RandomStrenght = 30f;
+        public float RandomStrenght = 30f;
 
         [Export]
-        float ShakeFade = 9f;
+        public float ShakeFade = 9f;
 
         [Signal]
         public delegate void SetCameraDampingEventHandler(bool damping);
