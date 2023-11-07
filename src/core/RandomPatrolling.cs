@@ -72,53 +72,73 @@ namespace Isometric3DEngine
             if (MovementType == MovementTypes.Jump && !_AlreadyOnFloor && body.IsOnFloor())
             {
                 _AlreadyOnFloor = true;
+                velocity = Vector3.Zero;
                 EmitSignal("OnLanding");
             }
-
-            if (!body.IsOnFloor())
+            else if (!body.IsOnFloor())
             {
                 velocity.Y -= gravity * (float)delta * FallingVelocity;
             }
             else if (MovementType != MovementTypes.Idle)
             {
-                var itsTimeToChangeDirection =
-                    _TimeToChangeDirectionCounter >= TimeToChangeDirection;
-                var itsTimeToNextJump = _TimeToNextJumpCounter >= TimeToNextJump;
-
-                if (itsTimeToChangeDirection)
-                {
-                    _TimeToChangeDirectionCounter = 0f;
-
-                    Vector3 simpleDirection = ShouldMoveToTarget
-                        ? Target.Position
-                        : GetRandomDirection();
-                    CurrentDirection = (body.Transform.Basis * simpleDirection).Normalized();
-
-                    LookAtDirection(body, CurrentDirection);
-                }
+                ChangeDirectionIfItsTime(body);
 
                 if (MovementType == MovementTypes.Move)
-                {
-                    velocity.X = CurrentDirection.X * speed;
-                    velocity.Z = CurrentDirection.Z * speed;
-                    EmitSignal("OnMove");
-                }
-                else if (MovementType == MovementTypes.Jump && itsTimeToNextJump)
-                {
-                    velocity.Y = JumpVelocity;
-                    EmitSignal("OnJump");
-                }
+                    velocity = ApplyMovementForMove(body, speed, velocity);
+                else if (MovementType == MovementTypes.Jump)
+                    velocity = ApplyMovementForJump(body, speed, velocity);
             }
 
             body.Velocity = velocity;
             body.MoveAndSlide();
         }
 
+        private Vector3 ApplyMovementForMove(CharacterBody3D body, float speed, Vector3 velocity)
+        {
+            LookAtDirection(body, CurrentDirection);
+            velocity.X = CurrentDirection.X * speed;
+            velocity.Z = CurrentDirection.Z * speed;
+
+            EmitSignal("OnMove");
+
+            return velocity;
+        }
+
+        private Vector3 ApplyMovementForJump(CharacterBody3D body, float speed, Vector3 velocity)
+        {
+            if (_TimeToNextJumpCounter < TimeToNextJump)
+                return velocity;
+
+            LookAtDirection(body, CurrentDirection);
+            velocity.X = CurrentDirection.X * speed;
+            velocity.Z = CurrentDirection.Z * speed;
+            velocity.Y = JumpVelocity;
+
+            _AlreadyOnFloor = false;
+            _TimeToNextJumpCounter = 0f;
+            EmitSignal("OnJump");
+
+            return velocity;
+        }
+
+        private void ChangeDirectionIfItsTime(CharacterBody3D body)
+        {
+            if (_TimeToChangeDirectionCounter < TimeToChangeDirection)
+                return;
+
+            _TimeToChangeDirectionCounter = 0f;
+            CurrentDirection = (
+                ShouldMoveToTarget
+                    ? (Target.GlobalPosition - body.GlobalPosition)
+                    : (body.Transform.Basis * GetRandomDirection())
+            ).Normalized();
+        }
+
         private void LookAtDirection(CharacterBody3D body, Vector3 direction)
         {
             if (ShouldMoveToTarget)
-                body.LookAt(Target.Position, Vector3.Up);
-            else
+                body.LookAt(Target.GlobalPosition, Vector3.Up);
+            else if (direction != Vector3.Zero)
                 body.LookAt(body.GlobalPosition + direction, Vector3.Up);
         }
 
