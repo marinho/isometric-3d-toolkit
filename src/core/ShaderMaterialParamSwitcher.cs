@@ -3,7 +3,7 @@ using System;
 
 namespace Isometric3DEngine
 {
-    public partial class ShaderMaterialParamSwitcher : Node
+    public partial class ShaderMaterialParamSwitcher : Node, IActivable
     {
         [Export]
         public MeshInstance3D MeshInstance;
@@ -14,16 +14,18 @@ namespace Isometric3DEngine
         [Export]
         public int MaterialIndex = 0;
 
-        public void SwitchOn()
+        public void Activate()
         {
             var spiralMaterial = (ShaderMaterial)MeshInstance.GetActiveMaterial(MaterialIndex);
             spiralMaterial.SetShaderParameter(ParameterName, true);
         }
 
-        public void SwitchOff()
+        public void Deactivate()
         {
             var spiralMaterial = (ShaderMaterial)MeshInstance.GetActiveMaterial(MaterialIndex);
             spiralMaterial.SetShaderParameter(ParameterName, false);
         }
+
+        public void ActivatorAction() { }
     }
 }
