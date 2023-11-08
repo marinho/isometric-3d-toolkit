@@ -64,10 +64,10 @@ namespace Isometric3DEngine
             SaveDictionary(savedJson);
         }
 
-        public Variant GetValue(string key)
+        public Variant GetValue(string key, Variant defaultValue)
         {
             var savedJson = LoadAsDictionary();
-            return savedJson.GetValueOrDefault(key);
+            return savedJson.GetValueOrDefault(key, defaultValue);
         }
 
         public void SetVector3Value(string key, Vector3 value)
@@ -81,9 +81,9 @@ namespace Isometric3DEngine
             SetValue(key, vector3AsDictionary);
         }
 
-        public Vector3 GetVector3Value(string key)
+        public Vector3 GetVector3Value(string key, Vector3 defaultValue)
         {
-            var value = GetValue(key).AsGodotDictionary();
+            var value = GetValue(key, defaultValue).AsGodotDictionary();
 
             return new Vector3(
                 (float)value.GetValueOrDefault("x"),
