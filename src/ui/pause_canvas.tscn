@@ -55,6 +55,7 @@ layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_rmn37")
 
 [node name="InfiniteInkOptions" type="OptionButton" parent="Screen/Menu Container/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 theme = ExtResource("1_2lddp")
 theme_override_font_sizes/font_size = 30
@@ -67,6 +68,7 @@ popup/item_1/text = "INFINITE INK"
 popup/item_1/id = 1
 
 [node name="BackgroundMusicOptions" type="OptionButton" parent="Screen/Menu Container/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 theme = ExtResource("1_2lddp")
 theme_override_font_sizes/font_size = 30

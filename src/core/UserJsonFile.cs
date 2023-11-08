@@ -81,6 +81,9 @@ namespace Isometric3DEngine
             SetValue(key, vector3AsDictionary);
         }
 
+        // Godot's supposedly has an ".AsVector3()" method, which expects a string, such as "(1, 2, 3)"
+        // but it doesn't work and returns always Vector3.Zero. Therefore, I'd better use my own method
+        // with a dictionary, that's less error prone.
         public Vector3 GetVector3Value(string key, Vector3 defaultValue)
         {
             var value = GetValue(key, defaultValue).AsGodotDictionary();
