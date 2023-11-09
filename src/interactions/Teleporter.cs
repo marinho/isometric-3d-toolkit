@@ -27,6 +27,7 @@ namespace Isometric3DEngine
             switch (DestinationType)
             {
                 case TeleporterDestinationType.Scene:
+                    GD.Print($"Teleporting to {DestinationScene}");
                     GetTree().ChangeSceneToFile(DestinationScene);
                     break;
                 case TeleporterDestinationType.Transform:
