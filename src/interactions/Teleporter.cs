@@ -20,6 +20,17 @@ namespace Isometric3DEngine
         [Export]
         public Node3D DestinationTransform;
 
+        [Export]
+        public bool ActionOnEnter = false;
+
+        ActivatorArea _Activator;
+
+        public override void _Ready()
+        {
+            _Activator = GetNode<ActivatorArea>("%activator");
+            _Activator.CanInputAction = !ActionOnEnter;
+        }
+
         public void ActivatorAction()
         {
             // TODO do a fancy loading animation
@@ -36,6 +47,14 @@ namespace Isometric3DEngine
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        public void _Activator_Body_Entered()
+        {
+            if (ActionOnEnter)
+            {
+                ActivatorAction();
             }
         }
     }
