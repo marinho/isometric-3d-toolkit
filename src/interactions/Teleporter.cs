@@ -7,8 +7,8 @@ namespace Isometric3DEngine
     {
         public enum TeleporterDestinationType
         {
-            Scene,
-            Transform
+            AnotherScene,
+            ThisScene
         }
 
         [Export]
@@ -16,6 +16,9 @@ namespace Isometric3DEngine
 
         [Export(PropertyHint.File)]
         public string DestinationScene;
+
+        [Export]
+        public string DestinationTransformPath; // can be either on current scene or the destination scene
 
         [Export]
         public Node3D DestinationTransform;
@@ -37,17 +40,31 @@ namespace Isometric3DEngine
 
             switch (DestinationType)
             {
-                case TeleporterDestinationType.Scene:
-                    GD.Print($"Teleporting to {DestinationScene}");
-                    GetTree().ChangeSceneToFile(DestinationScene);
+                case TeleporterDestinationType.AnotherScene:
+                    TeleportToAnotherScene();
                     break;
-                case TeleporterDestinationType.Transform:
-                    GlobalPosition = DestinationTransform.GlobalPosition;
-                    GlobalRotation = DestinationTransform.GlobalRotation;
+                case TeleporterDestinationType.ThisScene:
+                    TeleportInCurrentScene();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+        }
+
+        private void TeleportToAnotherScene()
+        {
+            var sceneManager = GetTree().Root.GetNode<SceneManager>("/root/SceneManager");
+            var parameters = new Godot.Collections.Dictionary<string, Variant>
+            {
+                { "destinationPath", DestinationTransformPath }
+            };
+            sceneManager.LoadSceneWithParams(DestinationScene, parameters);
+        }
+
+        private void TeleportInCurrentScene()
+        {
+            GlobalPosition = DestinationTransform.GlobalPosition;
+            GlobalRotation = DestinationTransform.GlobalRotation;
         }
 
         public void _Activator_Body_Entered()

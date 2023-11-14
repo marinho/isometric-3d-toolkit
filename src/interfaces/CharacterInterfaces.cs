@@ -1,3 +1,5 @@
+using Godot;
+
 namespace Isometric3DEngine
 {
     public interface ICharacter { }
@@ -6,6 +8,7 @@ namespace Isometric3DEngine
     {
         void BackToLastGroundPosition();
         void SetLastGroundPosition();
+        void SetGlobalPosition(Vector3 newGlobalPosition);
     }
 
     public interface IEnemy : ICharacter

@@ -9,6 +9,9 @@ namespace Isometric3DEngine
 
         string PlayerName = "%AudioStreamPlayer3D";
 
+        string ScenePathToLoad;
+        Godot.Collections.Dictionary<string, Variant> ParametersForNextScene;
+
         public override void _Ready()
         {
             AudioPlayer = GetNode<AudioStreamPlayer3D>(PlayerName);
@@ -23,6 +26,30 @@ namespace Isometric3DEngine
             var newAudioPlayer = AudioPlayer.Duplicate() as AudioStreamPlayer3D;
             node.AddChild(newAudioPlayer);
             return newAudioPlayer;
+        }
+
+        public void LoadScene(string scenePath)
+        {
+            GD.Print($"Teleporting to {scenePath}");
+            ScenePathToLoad = scenePath;
+            GetTree().ChangeSceneToFile(scenePath);
+        }
+
+        public void LoadSceneWithParams(
+            string scenePath,
+            Godot.Collections.Dictionary<string, Variant> parameters
+        )
+        {
+            ParametersForNextScene = parameters;
+            LoadScene(scenePath);
+        }
+
+        public Godot.Collections.Dictionary<string, Variant> GetSceneParams(string scenePath)
+        {
+            if (scenePath != ScenePathToLoad)
+                return null;
+
+            return ParametersForNextScene;
         }
     }
 }
