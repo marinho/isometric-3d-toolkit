@@ -3,6 +3,12 @@ using System;
 
 namespace Isometric3DEngine
 {
+    /**
+     * SceneManager : AutoLoad
+     *
+     * This class is responsible for managing the scene transitions.
+     * It is used to load a new scene and to pass parameters to it.
+     */
     public partial class SceneManager : Node
     {
         AudioStreamPlayer3D AudioPlayer;

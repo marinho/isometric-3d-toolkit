@@ -3,6 +3,11 @@ using System;
 
 namespace Isometric3DEngine
 {
+    /**
+     * ActivatorManager : AutoLoad
+     *
+     * This class is responsible for managing activator events, in special when it's an item that enables an input action.
+     */
     public partial class ActivatorManager : Control
     {
         // property for the hint node
