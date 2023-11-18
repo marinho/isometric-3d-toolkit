@@ -1,0 +1,67 @@
+[gd_scene load_steps=12 format=3 uid="uid://ccfiviyami47a"]
+
+[ext_resource type="Texture2D" uid="uid://ctnbef6x5kn1r" path="res://addons/isometric_3d_engine/src/particles/Flame.png" id="1_el0j1"]
+
+[sub_resource type="Gradient" id="Gradient_rjt5i"]
+offsets = PackedFloat32Array(0, 0.193548, 0.508065, 0.754032, 1)
+colors = PackedColorArray(0, 1, 1, 1, 1, 1, 0, 1, 1, 0.490196, 0, 0.803922, 1, 0.231373, 0, 0.443137, 1, 0, 0, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_y52o8"]
+gradient = SubResource("Gradient_rjt5i")
+width = 20
+
+[sub_resource type="Curve" id="Curve_bvs51"]
+max_value = 100.0
+_data = [Vector2(0, 1.05263), 0.0, 0.0, 0, 0, Vector2(1, 55.7895), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_uhp2t"]
+curve = SubResource("Curve_bvs51")
+
+[sub_resource type="Curve" id="Curve_w8hhv"]
+_data = [Vector2(0, 0.6), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_jbhb8"]
+curve = SubResource("Curve_w8hhv")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_h16op"]
+direction = Vector3(0, 1, 0)
+spread = 180.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 1.0
+initial_velocity_max = 3.0
+damping_min = 1.0
+damping_max = 20.0
+damping_curve = SubResource("CurveTexture_uhp2t")
+angle_min = -300.0
+angle_max = 300.0
+scale_min = 0.5
+scale_curve = SubResource("CurveTexture_jbhb8")
+color_ramp = SubResource("GradientTexture1D_y52o8")
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_ewyd5"]
+blend_mode = 1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nndoi"]
+next_pass = SubResource("CanvasItemMaterial_ewyd5")
+transparency = 1
+blend_mode = 1
+shading_mode = 0
+vertex_color_use_as_albedo = true
+albedo_texture = ExtResource("1_el0j1")
+albedo_texture_force_srgb = true
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_gdsi7"]
+material = SubResource("StandardMaterial3D_nndoi")
+size = Vector2(1, 1)
+orientation = 2
+
+[node name="Flame Explosion" type="GPUParticles3D"]
+emitting = false
+amount = 32
+lifetime = 0.9
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_h16op")
+draw_pass_1 = SubResource("PlaneMesh_gdsi7")

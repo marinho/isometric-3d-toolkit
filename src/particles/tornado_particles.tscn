@@ -1,0 +1,55 @@
+[gd_scene load_steps=10 format=3 uid="uid://dcfvipfikvhr2"]
+
+[sub_resource type="Gradient" id="Gradient_b672g"]
+offsets = PackedFloat32Array(0.22, 0.4, 0.6275)
+colors = PackedColorArray(1, 1, 1, 1, 0.625241, 0.875728, 0.883439, 1, 0.63921, 0.87911, 0.876853, 0.360784)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_mtijn"]
+gradient = SubResource("Gradient_b672g")
+
+[sub_resource type="Curve" id="Curve_1pnqe"]
+_data = [Vector2(0, 0.0842105), 0.0, -0.211016, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_cpyth"]
+curve = SubResource("Curve_1pnqe")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_gewaw"]
+particle_flag_align_y = true
+direction = Vector3(0.1, 0.5, 0)
+spread = 1.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 1.0
+initial_velocity_max = 1.2
+angle_max = 720.0
+scale_curve = SubResource("CurveTexture_cpyth")
+color_ramp = SubResource("GradientTexture1D_mtijn")
+turbulence_noise_strength = 0.1
+turbulence_noise_scale = 0.1
+
+[sub_resource type="Gradient" id="Gradient_8tsi7"]
+offsets = PackedFloat32Array(0.431122, 0.535714, 0.627551)
+colors = PackedColorArray(1, 1, 1, 0, 0.831298, 0.951513, 0.941435, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_4v0mu"]
+gradient = SubResource("Gradient_8tsi7")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ew0c4"]
+transparency = 1
+shading_mode = 0
+vertex_color_use_as_albedo = true
+albedo_texture = SubResource("GradientTexture2D_4v0mu")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_jja0m"]
+material = SubResource("StandardMaterial3D_ew0c4")
+size = Vector2(1, 1)
+
+[node name="Tornado" type="GPUParticles3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.5, 0)
+amount = 30
+randomness = 0.1
+fixed_fps = 0
+process_material = SubResource("ParticleProcessMaterial_gewaw")
+draw_pass_1 = SubResource("PlaneMesh_jja0m")

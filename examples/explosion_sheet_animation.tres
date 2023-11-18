@@ -1,0 +1,46 @@
+[gd_resource type="SpriteFrames" load_steps=7 format=3 uid="uid://dalq22f5h5554"]
+
+[ext_resource type="Texture2D" uid="uid://c13wh74k0qm8i" path="res://addons/isometric_3d_engine/examples/Explosion_Sheet.png" id="1_j57t5"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wamhy"]
+atlas = ExtResource("1_j57t5")
+region = Rect2(0, 0, 21, 23)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hdyux"]
+atlas = ExtResource("1_j57t5")
+region = Rect2(21, 0, 21, 23)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gtp8s"]
+atlas = ExtResource("1_j57t5")
+region = Rect2(42, 0, 21, 23)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mbqda"]
+atlas = ExtResource("1_j57t5")
+region = Rect2(63, 0, 21, 23)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gcscv"]
+atlas = ExtResource("1_j57t5")
+region = Rect2(84, 0, 21, 23)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wamhy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hdyux")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gtp8s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mbqda")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gcscv")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]

@@ -1,0 +1,66 @@
+[gd_scene load_steps=12 format=3 uid="uid://suv8ngamyhi5"]
+
+[ext_resource type="Texture2D" uid="uid://ctnbef6x5kn1r" path="res://addons/isometric_3d_engine/src/particles/Flame.png" id="1_5pibo"]
+
+[sub_resource type="Gradient" id="Gradient_rjt5i"]
+offsets = PackedFloat32Array(0, 0.193548, 0.508065, 0.754032, 1)
+colors = PackedColorArray(0, 1, 1, 1, 1, 1, 0, 1, 1, 0.490196, 0, 0.803922, 1, 0.231373, 0, 0.721569, 1, 0, 0, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_y52o8"]
+gradient = SubResource("Gradient_rjt5i")
+width = 20
+
+[sub_resource type="Curve" id="Curve_1to6v"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.157895), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_7wwx5"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.157895), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_20i7q"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.157895), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveXYZTexture" id="CurveXYZTexture_ok5e0"]
+curve_x = SubResource("Curve_1to6v")
+curve_y = SubResource("Curve_7wwx5")
+curve_z = SubResource("Curve_20i7q")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_h16op"]
+direction = Vector3(0, 1, 0)
+spread = 30.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 1.0
+initial_velocity_max = 2.0
+linear_accel_min = 1.0
+linear_accel_max = 2.0
+angle_min = -720.0
+angle_max = 720.0
+scale_min = 0.5
+scale_curve = SubResource("CurveXYZTexture_ok5e0")
+color_ramp = SubResource("GradientTexture1D_y52o8")
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_ewyd5"]
+blend_mode = 1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nndoi"]
+next_pass = SubResource("CanvasItemMaterial_ewyd5")
+transparency = 1
+blend_mode = 1
+shading_mode = 0
+vertex_color_use_as_albedo = true
+albedo_texture = ExtResource("1_5pibo")
+albedo_texture_force_srgb = true
+billboard_mode = 2
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_gdsi7"]
+material = SubResource("StandardMaterial3D_nndoi")
+size = Vector2(0.7, 1)
+orientation = 2
+
+[node name="Flame" type="GPUParticles3D"]
+amount = 16
+lifetime = 0.6
+process_material = SubResource("ParticleProcessMaterial_h16op")
+draw_pass_1 = SubResource("PlaneMesh_gdsi7")

@@ -1,0 +1,89 @@
+[gd_scene load_steps=13 format=3 uid="uid://d4l7dv87t32o"]
+
+[ext_resource type="PackedScene" uid="uid://b0w7fxk8lxym0" path="res://addons/isometric_3d_engine/src/particles/sparks_particles.tscn" id="1_blei7"]
+[ext_resource type="PackedScene" uid="uid://suv8ngamyhi5" path="res://addons/isometric_3d_engine/src/particles/flame_particles.tscn" id="1_ug8xa"]
+[ext_resource type="PackedScene" uid="uid://ccfiviyami47a" path="res://addons/isometric_3d_engine/src/particles/flame_explosion_particles.tscn" id="2_02gek"]
+[ext_resource type="PackedScene" uid="uid://foql6kum3vkm" path="res://addons/isometric_3d_engine/src/particles/impact_particles.tscn" id="2_rr1rd"]
+[ext_resource type="PackedScene" uid="uid://dxr8pwmc8hdv2" path="res://addons/isometric_3d_engine/src/particles/implosion_particles.tscn" id="3_bjr0p"]
+[ext_resource type="PackedScene" uid="uid://b5rt8wyjskos0" path="res://addons/isometric_3d_engine/examples/sheet_explosion.tscn" id="3_wa2j2"]
+[ext_resource type="PackedScene" uid="uid://dcfvipfikvhr2" path="res://addons/isometric_3d_engine/src/particles/tornado_particles.tscn" id="5_o2x6g"]
+[ext_resource type="PackedScene" uid="uid://d4adg2gnotgkf" path="res://addons/isometric_3d_engine/src/particles/hyperdrive_particles.tscn" id="6_3jfav"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_evcwt"]
+size = Vector3(10, 1, 10)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fowx7"]
+shading_mode = 0
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_snejf"]
+material = SubResource("StandardMaterial3D_fowx7")
+size = Vector2(10, 10)
+
+[sub_resource type="Environment" id="Environment_ml5km"]
+background_mode = 1
+
+[node name="particles_example_scene" type="Node3D"]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+shape = SubResource("BoxShape3D_evcwt")
+
+[node name="GPUParticlesCollisionHeightField3D" type="GPUParticlesCollisionHeightField3D" parent="StaticBody3D"]
+cull_mask = 4294967293
+size = Vector3(10, 2, 10)
+
+[node name="Ground" type="MeshInstance3D" parent="StaticBody3D"]
+mesh = SubResource("PlaneMesh_snejf")
+skeleton = NodePath("../..")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_ml5km")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.707107, -0.40558, 0.579228, 0, 0.819152, 0.573576, -0.707107, -0.40558, 0.579228, 30, 30, 30)
+projection = 1
+size = 5.0
+
+[node name="Effects" type="Node3D" parent="."]
+
+[node name="Sparks" parent="Effects" instance=ExtResource("1_blei7")]
+visible = false
+
+[node name="Impact" parent="Effects" instance=ExtResource("2_rr1rd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+visible = false
+layers = 2
+
+[node name="Implosion" parent="Effects" instance=ExtResource("3_bjr0p")]
+visible = false
+
+[node name="Flame" parent="Effects" instance=ExtResource("1_ug8xa")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+visible = false
+
+[node name="Tornado" parent="Effects" instance=ExtResource("5_o2x6g")]
+visible = false
+
+[node name="Hyperdrive" parent="Effects" instance=ExtResource("6_3jfav")]
+visible = false
+
+[node name="Smoke" type="GPUParticles3D" parent="Effects"]
+
+[node name="Electricity" type="GPUParticles3D" parent="Effects"]
+visible = false
+
+[node name="Shockwave" type="GPUParticles3D" parent="Effects"]
+visible = false
+
+[node name="Shield" type="GPUParticles3D" parent="Effects"]
+visible = false
+
+[node name="Flame Explosion" parent="Effects" instance=ExtResource("2_02gek")]
+visible = false
+emitting = true
+one_shot = false
+
+[node name="Sheet Explosion" parent="Effects" instance=ExtResource("3_wa2j2")]
