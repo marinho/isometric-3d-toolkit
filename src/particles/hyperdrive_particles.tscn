@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://d4adg2gnotgkf"]
+[gd_scene load_steps=25 format=3 uid="uid://d4adg2gnotgkf"]
 
 [ext_resource type="Material" uid="uid://ndld74wgmyuv" path="res://addons/isometric_3d_engine/examples/blue_trace.tres" id="1_i83ff"]
 
@@ -68,8 +68,68 @@ material = SubResource("StandardMaterial3D_fdfw5")
 size = Vector2(0.01, 0.2)
 orientation = 2
 
+[sub_resource type="Gradient" id="Gradient_4ugco"]
+offsets = PackedFloat32Array(0.29, 0.5425, 0.89)
+colors = PackedColorArray(1, 1, 1, 0.141176, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_ovyxl"]
+gradient = SubResource("Gradient_4ugco")
+
+[sub_resource type="Curve" id="Curve_7dl6x"]
+max_value = 10.0
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 10), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_20pj2"]
+curve = SubResource("Curve_7dl6x")
+
+[sub_resource type="Curve" id="Curve_lm7np"]
+_data = [Vector2(0, 0.0631579), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_x47rs"]
+curve = SubResource("Curve_lm7np")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_yt86i"]
+particle_flag_align_y = true
+particle_flag_disable_z = true
+direction = Vector3(0, 0, 0)
+spread = 180.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 1.0
+initial_velocity_max = 1.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+radial_accel_min = 2.0
+radial_accel_max = 2.0
+radial_accel_curve = SubResource("CurveTexture_20pj2")
+scale_curve = SubResource("CurveTexture_x47rs")
+color_ramp = SubResource("GradientTexture1D_ovyxl")
+
+[sub_resource type="Gradient" id="Gradient_qd7gg"]
+offsets = PackedFloat32Array(0.326531, 0.433673, 0.711735)
+colors = PackedColorArray(1, 1, 1, 1, 0.990238, 0.606334, 7.70092e-07, 1, 1, 0.69648, 0.416463, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_bqxo1"]
+gradient = SubResource("Gradient_qd7gg")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xnkqc"]
+transparency = 1
+shading_mode = 0
+vertex_color_use_as_albedo = true
+albedo_texture = SubResource("GradientTexture2D_bqxo1")
+heightmap_scale = 4.139
+grow_amount = 0.861
+proximity_fade_distance = 0.0
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_cleyv"]
+material = SubResource("StandardMaterial3D_xnkqc")
+size = Vector2(0.01, 0.2)
+orientation = 2
+
 [node name="Hyperdrive" type="GPUParticles3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 amount = 100
 fixed_fps = 0
 process_material = SubResource("ParticleProcessMaterial_vo6ea")
@@ -80,3 +140,9 @@ amount = 50
 fixed_fps = 0
 process_material = SubResource("ParticleProcessMaterial_vo6ea")
 draw_pass_1 = SubResource("PlaneMesh_xipwo")
+
+[node name="Hyperdrive3" type="GPUParticles3D" parent="."]
+amount = 30
+fixed_fps = 0
+process_material = SubResource("ParticleProcessMaterial_yt86i")
+draw_pass_1 = SubResource("PlaneMesh_cleyv")

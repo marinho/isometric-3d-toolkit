@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://d4l7dv87t32o"]
+[gd_scene load_steps=16 format=3 uid="uid://d4l7dv87t32o"]
 
 [ext_resource type="PackedScene" uid="uid://b0w7fxk8lxym0" path="res://addons/isometric_3d_engine/src/particles/sparks_particles.tscn" id="1_blei7"]
 [ext_resource type="PackedScene" uid="uid://suv8ngamyhi5" path="res://addons/isometric_3d_engine/src/particles/flame_particles.tscn" id="1_ug8xa"]
@@ -8,11 +8,16 @@
 [ext_resource type="PackedScene" uid="uid://b5rt8wyjskos0" path="res://addons/isometric_3d_engine/examples/sheet_explosion.tscn" id="3_wa2j2"]
 [ext_resource type="PackedScene" uid="uid://dcfvipfikvhr2" path="res://addons/isometric_3d_engine/src/particles/tornado_particles.tscn" id="5_o2x6g"]
 [ext_resource type="PackedScene" uid="uid://d4adg2gnotgkf" path="res://addons/isometric_3d_engine/src/particles/hyperdrive_particles.tscn" id="6_3jfav"]
+[ext_resource type="PackedScene" uid="uid://dtoxj25jfrd18" path="res://addons/isometric_3d_engine/src/particles/smoke_particles.tscn" id="7_lx04f"]
+[ext_resource type="PackedScene" uid="uid://c4wakv36cfyyv" path="res://addons/isometric_3d_engine/src/particles/electricity_particles.tscn" id="8_rtgeo"]
+[ext_resource type="PackedScene" uid="uid://cy7x0njo5x02p" path="res://addons/isometric_3d_engine/src/particles/shockwave_particles.tscn" id="9_40ytx"]
+[ext_resource type="PackedScene" uid="uid://cis4ut80il7j2" path="res://addons/isometric_3d_engine/src/particles/shield_particles.tscn" id="10_spo8e"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_evcwt"]
-size = Vector3(10, 1, 10)
+[sub_resource type="Environment" id="Environment_ml5km"]
+background_mode = 1
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fowx7"]
+transparency = 1
 shading_mode = 0
 albedo_color = Color(0, 0, 0, 1)
 
@@ -20,24 +25,7 @@ albedo_color = Color(0, 0, 0, 1)
 material = SubResource("StandardMaterial3D_fowx7")
 size = Vector2(10, 10)
 
-[sub_resource type="Environment" id="Environment_ml5km"]
-background_mode = 1
-
 [node name="particles_example_scene" type="Node3D"]
-
-[node name="StaticBody3D" type="StaticBody3D" parent="."]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
-shape = SubResource("BoxShape3D_evcwt")
-
-[node name="GPUParticlesCollisionHeightField3D" type="GPUParticlesCollisionHeightField3D" parent="StaticBody3D"]
-cull_mask = 4294967293
-size = Vector3(10, 2, 10)
-
-[node name="Ground" type="MeshInstance3D" parent="StaticBody3D"]
-mesh = SubResource("PlaneMesh_snejf")
-skeleton = NodePath("../..")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_ml5km")
@@ -50,12 +38,24 @@ size = 5.0
 [node name="Effects" type="Node3D" parent="."]
 
 [node name="Sparks" parent="Effects" instance=ExtResource("1_blei7")]
+transform = Transform3D(0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 0, 0, 1, 0, 0.1, 0)
 visible = false
+
+[node name="Ground" type="MeshInstance3D" parent="Effects/Sparks"]
+transform = Transform3D(0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 0, 0, 1, 0.0707107, -0.0707107, 0)
+mesh = SubResource("PlaneMesh_snejf")
+skeleton = NodePath("../../..")
+
+[node name="GPUParticlesCollisionBox3D" type="GPUParticlesCollisionBox3D" parent="Effects/Sparks"]
+transform = Transform3D(0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 0, 0, 1, 0.777817, -0.777817, 0)
+size = Vector3(10, 2, 10)
 
 [node name="Impact" parent="Effects" instance=ExtResource("2_rr1rd")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 visible = false
 layers = 2
+emitting = false
+one_shot = true
 
 [node name="Implosion" parent="Effects" instance=ExtResource("3_bjr0p")]
 visible = false
@@ -70,15 +70,16 @@ visible = false
 [node name="Hyperdrive" parent="Effects" instance=ExtResource("6_3jfav")]
 visible = false
 
-[node name="Smoke" type="GPUParticles3D" parent="Effects"]
-
-[node name="Electricity" type="GPUParticles3D" parent="Effects"]
+[node name="Smoke" parent="Effects" instance=ExtResource("7_lx04f")]
 visible = false
 
-[node name="Shockwave" type="GPUParticles3D" parent="Effects"]
+[node name="Electricity" parent="Effects" instance=ExtResource("8_rtgeo")]
 visible = false
 
-[node name="Shield" type="GPUParticles3D" parent="Effects"]
+[node name="Shockwave" parent="Effects" instance=ExtResource("9_40ytx")]
+visible = false
+
+[node name="Shield" parent="Effects" instance=ExtResource("10_spo8e")]
 visible = false
 
 [node name="Flame Explosion" parent="Effects" instance=ExtResource("2_02gek")]

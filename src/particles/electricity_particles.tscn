@@ -1,0 +1,71 @@
+[gd_scene load_steps=11 format=3 uid="uid://c4wakv36cfyyv"]
+
+[sub_resource type="Gradient" id="Gradient_17twy"]
+colors = PackedColorArray(1, 1, 0, 1, 0, 1, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_sakhi"]
+gradient = SubResource("Gradient_17twy")
+
+[sub_resource type="Curve" id="Curve_xdb2h"]
+max_value = 5.0
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 4.42105), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_r1dc5"]
+curve = SubResource("Curve_xdb2h")
+
+[sub_resource type="Curve" id="Curve_o1s57"]
+min_value = -10.0
+max_value = 10.0
+_data = [Vector2(0, -2.42105), 0.0, 0.0, 0, 0, Vector2(0.2529, 4.94737), 0.0, 0.0, 0, 0, Vector2(0.262181, -5.57895), 0.0, 0.0, 0, 0, Vector2(0.540603, -3.26316), 0.0, 0.0, 0, 0, Vector2(0.556845, 6.84211), 0.0, 0.0, 0, 0, Vector2(0.798144, -0.315789), 0.0, 0.0, 0, 0, Vector2(0.807425, 6.42105), 0.0, 0.0, 0, 0, Vector2(1, -4.10526), 0.0, 0.0, 0, 0]
+point_count = 8
+
+[sub_resource type="CurveTexture" id="CurveTexture_bm7bb"]
+curve = SubResource("Curve_o1s57")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_g6ao8"]
+particle_flag_align_y = true
+particle_flag_disable_z = true
+direction = Vector3(0, 1, 0)
+spread = 180.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 2.0
+initial_velocity_max = 2.0
+angular_velocity_max = 520.17
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+radial_accel_min = -5.0
+radial_accel_max = 5.0
+tangential_accel_min = 3.0
+tangential_accel_max = 5.0
+tangential_accel_curve = SubResource("CurveTexture_bm7bb")
+angle_min = -720.0
+angle_max = 720.0
+scale_curve = SubResource("CurveTexture_r1dc5")
+color_ramp = SubResource("GradientTexture1D_sakhi")
+
+[sub_resource type="Curve" id="Curve_7bpk7"]
+_data = [Vector2(0.467849, 0), 0.0, 0.0, 0, 0, Vector2(0.505543, 0.768421), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_o8hd5"]
+albedo_color = Color(5, 5, 0, 1)
+rim_enabled = true
+heightmap_scale = 12.749
+backlight = Color(0, 1, 0, 1)
+use_particle_trails = true
+
+[sub_resource type="RibbonTrailMesh" id="RibbonTrailMesh_yl6dn"]
+material = SubResource("StandardMaterial3D_o8hd5")
+shape = 0
+size = 0.02
+section_length = 0.25
+curve = SubResource("Curve_7bpk7")
+
+[node name="Electricity" type="GPUParticles3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+lifetime = 2.0
+trail_enabled = true
+trail_lifetime = 2.5
+process_material = SubResource("ParticleProcessMaterial_g6ao8")
+draw_pass_1 = SubResource("RibbonTrailMesh_yl6dn")
