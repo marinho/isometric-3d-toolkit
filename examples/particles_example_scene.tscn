@@ -15,6 +15,10 @@
 
 [sub_resource type="Environment" id="Environment_ml5km"]
 background_mode = 1
+glow_enabled = true
+glow_intensity = 2.54
+glow_strength = 1.28
+glow_blend_mode = 1
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fowx7"]
 transparency = 1
@@ -38,7 +42,6 @@ size = 5.0
 [node name="Effects" type="Node3D" parent="."]
 
 [node name="Sparks" parent="Effects" instance=ExtResource("1_blei7")]
-transform = Transform3D(0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 0, 0, 1, 0, 0.1, 0)
 visible = false
 
 [node name="Ground" type="MeshInstance3D" parent="Effects/Sparks"]
