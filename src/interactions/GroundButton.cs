@@ -33,9 +33,15 @@ namespace Isometric3DEngine
         [Signal]
         public delegate void ButtonPressedEventHandler();
 
+        [Signal]
+        public delegate void ButtonPressedWithObjectEventHandler(GroundButton button);
+
         // signal to be emitted when button is unpressed
         [Signal]
         public delegate void ButtonUnpressedEventHandler();
+
+        [Signal]
+        public delegate void ButtonUnpressedWithObjectEventHandler(GroundButton button);
 
         AudioStreamPlayer3D AudioPlayer;
 
@@ -43,7 +49,9 @@ namespace Isometric3DEngine
         public enum EventHandler
         {
             ButtonPressed,
-            ButtonUnpressed
+            ButtonPressedWithObject,
+            ButtonUnpressed,
+            ButtonUnpressedWithObject,
         }
 
         bool _PressEffects = false; // used to store that the related effects have been played
@@ -55,6 +63,7 @@ namespace Isometric3DEngine
 
             // emit signal that button is pressed
             EmitSignal(EventHandler.ButtonPressed.ToString());
+            EmitSignal(EventHandler.ButtonPressedWithObject.ToString(), this);
         }
 
         public void Deactivate()
@@ -67,6 +76,7 @@ namespace Isometric3DEngine
 
             // emit signal that button is unpressed
             EmitSignal(EventHandler.ButtonUnpressed.ToString());
+            EmitSignal(EventHandler.ButtonUnpressedWithObject.ToString(), this);
         }
 
         // method to toggle the gate open
@@ -92,7 +102,7 @@ namespace Isometric3DEngine
         }
 
         // method to process
-        public override void _Process(double delta)
+        public override void _PhysicsProcess(double delta)
         {
             if (IsPressed ^ _PressEffects)
                 TogglePressed(IsPressed);
