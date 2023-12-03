@@ -11,13 +11,13 @@ curve = SubResource("Curve_3q25r")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_f31kp"]
 particle_flag_rotate_y = true
+angle_min = -0.5
+angle_max = 0.5
+angle_curve = SubResource("CurveTexture_ceg8k")
 direction = Vector3(0, 0, 0)
 spread = 0.0
 gravity = Vector3(0, 0, 0)
 tangential_accel_max = 1.0
-angle_min = -0.5
-angle_max = 0.5
-angle_curve = SubResource("CurveTexture_ceg8k")
 color = Color(0.52549, 0.52549, 1, 1)
 
 [sub_resource type="Gradient" id="Gradient_76nt8"]
@@ -53,14 +53,12 @@ curve = SubResource("Curve_08a20")
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_fskdt"]
 particle_flag_rotate_y = true
 particle_flag_disable_z = true
-direction = Vector3(0, 0, 0)
-spread = 0.0
-gravity = Vector3(0, 0, 0)
-orbit_velocity_min = 0.0
-orbit_velocity_max = 0.0
 angle_min = -0.5
 angle_max = 0.5
 angle_curve = SubResource("CurveTexture_sd10p")
+direction = Vector3(0, 0, 0)
+spread = 0.0
+gravity = Vector3(0, 0, 0)
 color = Color(0.627451, 1, 0.709804, 1)
 
 [sub_resource type="Gradient" id="Gradient_mgu2x"]
@@ -91,8 +89,6 @@ particle_flag_disable_z = true
 direction = Vector3(0, 0, 0)
 spread = 0.0
 gravity = Vector3(0, 0, 0)
-orbit_velocity_min = 0.0
-orbit_velocity_max = 0.0
 color = Color(0, 0.615686, 1, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_l4jtb"]
@@ -162,8 +158,6 @@ particle_flag_disable_z = true
 direction = Vector3(0, 0, 0)
 spread = 0.0
 gravity = Vector3(0, 0, 0)
-orbit_velocity_min = 0.0
-orbit_velocity_max = 0.0
 scale_min = 1.05
 scale_max = 1.05
 color = Color(0, 1, 0, 1)

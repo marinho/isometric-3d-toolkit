@@ -45,18 +45,18 @@ curve_y = SubResource("Curve_y07mk")
 curve_z = SubResource("Curve_rwvrh")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_g76ty"]
+angle_min = -0.2
+angle_max = 0.2
+angle_curve = SubResource("CurveTexture_fkpkd")
 direction = Vector3(0, 1, 0)
 spread = 25.0
-gravity = Vector3(0, 0, 0)
 initial_velocity_min = 1.0
 initial_velocity_max = 1.0
+gravity = Vector3(0, 0, 0)
 linear_accel_min = 1.0
 linear_accel_max = 1.0
 linear_accel_curve = SubResource("CurveTexture_3svnx")
 tangential_accel_max = 1.0
-angle_min = -0.2
-angle_max = 0.2
-angle_curve = SubResource("CurveTexture_fkpkd")
 scale_curve = SubResource("CurveXYZTexture_bdvgl")
 color_ramp = SubResource("GradientTexture1D_l7jgh")
 

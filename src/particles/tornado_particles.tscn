@@ -15,18 +15,18 @@ point_count = 2
 curve = SubResource("Curve_1pnqe")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_gewaw"]
+particle_flag_align_y = true
 emission_shape = 6
 emission_ring_axis = Vector3(0, 0, 1)
 emission_ring_height = 0.01
 emission_ring_radius = 0.02
 emission_ring_inner_radius = 0.0
-particle_flag_align_y = true
+angle_max = 720.0
 direction = Vector3(0.1, 0.5, 0)
 spread = 1.0
-gravity = Vector3(0, 0, 0)
 initial_velocity_min = 1.2
 initial_velocity_max = 1.5
-angle_max = 720.0
+gravity = Vector3(0, 0, 0)
 scale_curve = SubResource("CurveTexture_cpyth")
 color_ramp = SubResource("GradientTexture1D_mtijn")
 turbulence_noise_strength = 0.1

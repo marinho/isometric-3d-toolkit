@@ -5,8 +5,8 @@ emission_shape = 3
 emission_box_extents = Vector3(0.7, 0, 0.7)
 direction = Vector3(0, 1, 0)
 spread = 1.0
-gravity = Vector3(0, 1, 0)
 initial_velocity_max = 1.0
+gravity = Vector3(0, 1, 0)
 scale_min = 0.5
 scale_max = 1.5
 

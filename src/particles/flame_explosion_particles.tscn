@@ -26,16 +26,16 @@ point_count = 2
 curve = SubResource("Curve_w8hhv")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_h16op"]
+angle_min = -300.0
+angle_max = 300.0
 direction = Vector3(0, 1, 0)
 spread = 180.0
-gravity = Vector3(0, 0, 0)
 initial_velocity_min = 1.0
 initial_velocity_max = 3.0
+gravity = Vector3(0, 0, 0)
 damping_min = 1.0
 damping_max = 20.0
 damping_curve = SubResource("CurveTexture_uhp2t")
-angle_min = -300.0
-angle_max = 300.0
 scale_min = 0.5
 scale_curve = SubResource("CurveTexture_jbhb8")
 color_ramp = SubResource("GradientTexture1D_y52o8")
