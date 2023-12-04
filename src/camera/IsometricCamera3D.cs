@@ -14,10 +14,7 @@ namespace Isometric3DEngine
             _CameraShaker = GetNode<CameraShaker>("%CameraShaker");
 
             _PlayerManager = GetNode<PlayerManager>("/root/PlayerManager");
-            _PlayerManager.Connect(
-                PlayerManager.EventHandler.Died.ToString(),
-                new Callable(this, nameof(ShakeCamera))
-            );
+            _PlayerManager.Died += ShakeCamera;
         }
 
         public void ShakeCamera()
