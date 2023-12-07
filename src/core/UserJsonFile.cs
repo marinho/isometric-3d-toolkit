@@ -27,7 +27,7 @@ namespace Isometric3DEngine
         public string LoadAsJson()
         {
             if (!FileAccess.FileExists(FilePath))
-                return null;
+                SaveDictionary(Json.ParseString("{}").AsGodotDictionary());
 
             var fp = FileAccess.Open(FilePath, FileAccess.ModeFlags.Read);
             string json = fp.GetAsText();
