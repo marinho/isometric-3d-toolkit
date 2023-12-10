@@ -8,7 +8,7 @@ namespace Isometric3DEngine
         void Collect();
     }
 
-    public partial class Chest : Node3D, IActivable
+    public partial class Chest : VisibleAndProcessTogether, IActivable
     {
         // property to set chest open
         [Export]
@@ -32,11 +32,18 @@ namespace Isometric3DEngine
         [Export]
         public string GamePersistenceItemId;
 
+        [Signal]
+        public delegate void ContentCollectedEventHandler();
+
+        public new enum EventHandler
+        {
+            ContentCollected,
+        }
+
         bool _PlayerIsNear = false;
 
         bool _OpenEffects = false; // used to store that the related effects have been played
         AudioStreamPlayer3D AudioPlayer;
-        MultiParticles CollectEffects;
         GamePersistence _GamePersistence;
 
         // method to toggle the gate open
@@ -69,7 +76,6 @@ namespace Isometric3DEngine
         {
             // get sceneManager from root node
             AudioPlayer = GetNode<SceneManager>("/root/SceneManager").AddAudioPlayerToNode(this);
-            CollectEffects = GetNode<MultiParticles>("%CollectEffects");
 
             _GamePersistence = GetNode<GamePersistence>("/root/GamePersistence");
             IsOpen = _GamePersistence.GetStateBooleanItem(GamePersistenceItemId);
@@ -91,11 +97,11 @@ namespace Isometric3DEngine
 
             SetOpen();
 
-            CollectEffects.StartEmitters();
-
             _GamePersistence.SetStateBooleanItem(GamePersistenceItemId, true);
 
             (ChestContents as ICollectable).Collect();
+
+            EmitSignal(EventHandler.ContentCollected.ToString());
 
             GetTree().CreateTimer(.5f).Timeout += () => ChestContents.Hide();
         }
