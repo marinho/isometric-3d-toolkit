@@ -31,6 +31,9 @@ namespace Isometric3DEngine
         [Export]
         public bool ActivatedByEnemy = false;
 
+        [Export]
+        public ActionInputBalloon _ActionInputBalloon;
+
         [ExportGroup("Action")]
         [Export]
         public string TextForInput = "Input Action";
@@ -75,8 +78,7 @@ namespace Isometric3DEngine
         AudioStreamPlayer3D AudioPlayer;
         int InputActionCounter = 0;
         float TimeToAllowNextAction = 0.0f;
-        SignalManager signalManager;
-        ActivatorManager activatorManager;
+        SignalManager _SignalManager;
 
         // public enum with the possible event handlers in this class
         public enum EventHandler
@@ -92,8 +94,8 @@ namespace Isometric3DEngine
         public override void _Ready()
         {
             AudioPlayer = GetNode<SceneManager>("/root/SceneManager").AddAudioPlayerToNode(this);
-            signalManager = GetNode<SignalManager>("/root/SignalManager");
-            activatorManager = GetNode<ActivatorManager>("/root/ActivatorManager");
+            _SignalManager = GetNode<SignalManager>("/root/SignalManager");
+            _ActionInputBalloon?.Hide();
         }
 
         public override void _PhysicsProcess(double delta)
@@ -184,27 +186,29 @@ namespace Isometric3DEngine
 
         private void SetTriggerInputAvailable(bool value)
         {
-            signalManager.EmitSignal(
+            _SignalManager.EmitSignal(
                 SignalManagerEvent.SetInputControlDownHighlight.ToString(),
                 value
             );
 
             if (value)
             {
-                signalManager.EmitSignal(
+                _SignalManager.EmitSignal(
                     SignalManagerEvent.SetInputControlDownLabel.ToString(),
                     TextForInput
                 );
-                signalManager.EmitSignal(SignalManagerEvent.SetPlayerCanJump.ToString(), false);
-                activatorManager.ShowInputPromptEventHandler(GlobalPosition, TextForInput);
+                _SignalManager.EmitSignal(SignalManagerEvent.SetPlayerCanJump.ToString(), false);
+
+                _ActionInputBalloon?.ShowWithText(TextForInput);
             }
             else
             {
-                signalManager.EmitSignal(
+                _SignalManager.EmitSignal(
                     SignalManagerEvent.SetInputControlDownLabelToDefault.ToString()
                 );
-                signalManager.EmitSignal(SignalManagerEvent.SetPlayerCanJump.ToString(), true);
-                activatorManager.HideInputPromptEventHandler();
+                _SignalManager.EmitSignal(SignalManagerEvent.SetPlayerCanJump.ToString(), true);
+
+                _ActionInputBalloon?.Hide();
             }
         }
     }

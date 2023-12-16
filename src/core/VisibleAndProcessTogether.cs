@@ -5,6 +5,9 @@ namespace Isometric3DEngine
 {
     public partial class VisibleAndProcessTogether : Node3D
     {
+        [Export]
+        public bool StartHidden = false;
+
         [Signal]
         public delegate void BeforeShowEventHandler();
 
@@ -23,6 +26,14 @@ namespace Isometric3DEngine
             AfterShow,
             BeforeHide,
             AfterHide,
+        }
+
+        public override void _Ready()
+        {
+            if (StartHidden)
+            {
+                HideAndDisable();
+            }
         }
 
         public void ShowAndEnable()

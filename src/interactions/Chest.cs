@@ -79,6 +79,7 @@ namespace Isometric3DEngine
 
             _GamePersistence = GetNode<GamePersistence>("/root/GamePersistence");
             IsOpen = _GamePersistence.GetStateBooleanItem(GamePersistenceItemId);
+
             if (IsOpen && ChestContents != null)
                 ChestContents.Hide();
         }
