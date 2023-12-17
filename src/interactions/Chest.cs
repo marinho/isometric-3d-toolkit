@@ -14,10 +14,6 @@ namespace Isometric3DEngine
         [Export]
         public bool IsOpen = false;
 
-        // property for the chest top mesh instance
-        [Export]
-        public Node3D ChestTopMeshInstance;
-
         // property for the rotation angles of the chest top mesh instance
         [Export]
         public Vector3 OpenChestTopRotationAngles;
@@ -62,13 +58,10 @@ namespace Isometric3DEngine
             _OpenEffects = isOpen;
 
             var rotationAngles = isOpen ? OpenChestTopRotationAngles : ClosedChestTopRotationAngles;
+            var chestTop = GetNode<Node3D>("%ChestTop");
 
-            // rotate the scissors
-            ChestTopMeshInstance.RotationDegrees = new Vector3(
-                rotationAngles.X,
-                rotationAngles.Y,
-                rotationAngles.Z
-            );
+            // rotate the chest top
+            chestTop.RotationDegrees = rotationAngles;
         }
 
         public void SetOpen()
@@ -97,8 +90,8 @@ namespace Isometric3DEngine
         // method to process
         public override void _Process(double delta)
         {
-            if (IsOpen ^ _OpenEffects)
-                ToggleOpen(IsOpen);
+            // if (IsOpen ^ _OpenEffects)
+            //     ToggleOpen(IsOpen);
         }
 
         public void ActivatorAction()
