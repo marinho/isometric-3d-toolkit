@@ -25,6 +25,7 @@ namespace Isometric3DEngine
         [Export]
         public Node3D ChestContents;
 
+        [ExportGroup("Game Persistence")]
         [Export]
         public string GamePersistenceItemId;
 

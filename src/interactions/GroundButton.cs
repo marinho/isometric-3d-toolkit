@@ -5,9 +5,6 @@ namespace Isometric3DEngine
 {
     public partial class GroundButton : Node3D, IActivable
     {
-        [Export]
-        public string GamePersistenceItemId;
-
         // property to set gate is open
         [Export]
         public bool IsPressed = false;
@@ -31,6 +28,10 @@ namespace Isometric3DEngine
         // property for offset when it's pressed
         [Export]
         public Vector3 PressedOffset;
+
+        [ExportGroup("Game Persistence")]
+        [Export]
+        public string GamePersistenceItemId;
 
         [Export]
         public bool IsPersistent = false;
@@ -74,10 +75,6 @@ namespace Isometric3DEngine
         {
             // set the button as pressed
             TogglePressed(true);
-
-            // emit signal that button is pressed
-            // EmitSignal(EventHandler.ButtonPressed.ToString());
-            // EmitSignal(EventHandler.ButtonPressedWithObject.ToString(), this);
         }
 
         public void Deactivate()
@@ -87,16 +84,13 @@ namespace Isometric3DEngine
 
             // set the button as unpressed
             TogglePressed(false);
-
-            // emit signal that button is unpressed
-            // EmitSignal(EventHandler.ButtonUnpressed.ToString());
-            // EmitSignal(EventHandler.ButtonUnpressedWithObject.ToString(), this);
         }
 
         // method to toggle the button open
-        public void TogglePressed(bool isPressed)
+        public void TogglePressed(bool isPressed, bool silently = false)
         {
-            PlaySoundEffects(isPressed);
+            if (!silently)
+                PlaySoundEffects(isPressed);
 
             IsPressed = isPressed;
             _PressEffects = isPressed;
@@ -140,8 +134,11 @@ namespace Isometric3DEngine
             AudioPlayer = GetNode<SceneManager>("/root/SceneManager").AddAudioPlayerToNode(this);
 
             _GamePersistence = GetNode<GamePersistence>("/root/GamePersistence");
-            if (GamePersistenceItemId != "")
+            if (GamePersistenceItemId != "" && IsPersistent)
+            {
                 IsPressed = _GamePersistence.GetStateBooleanItem(GamePersistenceItemId);
+                TogglePressed(IsPressed, true);
+            }
         }
 
         // method to process
