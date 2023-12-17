@@ -32,6 +32,13 @@ namespace Isometric3DEngine
         [Export]
         public string GamePersistenceItemId;
 
+        [ExportGroup("Sounds")]
+        [Export]
+        public AudioStream OpenSound;
+
+        [Export]
+        public AudioStream CloseSound;
+
         [Signal]
         public delegate void ContentCollectedEventHandler();
 
@@ -49,6 +56,8 @@ namespace Isometric3DEngine
         // method to toggle the gate open
         public void ToggleOpen(bool isOpen)
         {
+            PlaySoundEffects(isOpen);
+
             IsOpen = isOpen;
             _OpenEffects = isOpen;
 
@@ -78,7 +87,8 @@ namespace Isometric3DEngine
             AudioPlayer = GetNode<SceneManager>("/root/SceneManager").AddAudioPlayerToNode(this);
 
             _GamePersistence = GetNode<GamePersistence>("/root/GamePersistence");
-            IsOpen = _GamePersistence.GetStateBooleanItem(GamePersistenceItemId);
+            if (GamePersistenceItemId != "")
+                IsOpen = _GamePersistence.GetStateBooleanItem(GamePersistenceItemId);
 
             if (IsOpen && ChestContents != null)
                 ChestContents.Hide();
@@ -116,6 +126,17 @@ namespace Isometric3DEngine
         public void Deactivate()
         {
             _PlayerIsNear = false;
+        }
+
+        private void PlaySoundEffects(bool isOpen)
+        {
+            if (isOpen)
+                AudioPlayer.Stream = OpenSound;
+            else
+                AudioPlayer.Stream = CloseSound;
+
+            if (AudioPlayer.Stream != null)
+                AudioPlayer.Play();
         }
     }
 }

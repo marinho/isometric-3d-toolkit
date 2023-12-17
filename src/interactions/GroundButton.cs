@@ -5,6 +5,9 @@ namespace Isometric3DEngine
 {
     public partial class GroundButton : Node3D, IActivable
     {
+        [Export]
+        public string GamePersistenceItemId;
+
         // property to set gate is open
         [Export]
         public bool IsPressed = false;
@@ -29,6 +32,16 @@ namespace Isometric3DEngine
         [Export]
         public Vector3 PressedOffset;
 
+        [Export]
+        public bool IsPersistent = false;
+
+        [ExportGroup("Sounds")]
+        [Export]
+        public AudioStream PressSound;
+
+        [Export]
+        public AudioStream UnpressSound;
+
         // signal to be emitted when button is pressed
         [Signal]
         public delegate void ButtonPressedEventHandler();
@@ -44,6 +57,7 @@ namespace Isometric3DEngine
         public delegate void ButtonUnpressedWithObjectEventHandler(GroundButton button);
 
         AudioStreamPlayer3D AudioPlayer;
+        GamePersistence _GamePersistence;
 
         // public enum with the possible event handlers in this class
         public enum EventHandler
@@ -59,11 +73,11 @@ namespace Isometric3DEngine
         public void Activate()
         {
             // set the button as pressed
-            IsPressed = true;
+            TogglePressed(true);
 
             // emit signal that button is pressed
-            EmitSignal(EventHandler.ButtonPressed.ToString());
-            EmitSignal(EventHandler.ButtonPressedWithObject.ToString(), this);
+            // EmitSignal(EventHandler.ButtonPressed.ToString());
+            // EmitSignal(EventHandler.ButtonPressedWithObject.ToString(), this);
         }
 
         public void Deactivate()
@@ -72,20 +86,23 @@ namespace Isometric3DEngine
                 return;
 
             // set the button as unpressed
-            IsPressed = false;
+            TogglePressed(false);
 
             // emit signal that button is unpressed
-            EmitSignal(EventHandler.ButtonUnpressed.ToString());
-            EmitSignal(EventHandler.ButtonUnpressedWithObject.ToString(), this);
+            // EmitSignal(EventHandler.ButtonUnpressed.ToString());
+            // EmitSignal(EventHandler.ButtonUnpressedWithObject.ToString(), this);
         }
 
-        // method to toggle the gate open
+        // method to toggle the button open
         public void TogglePressed(bool isPressed)
         {
-            AudioPlayer.Play();
+            PlaySoundEffects(isPressed);
 
             IsPressed = isPressed;
             _PressEffects = isPressed;
+
+            if (IsPersistent && GamePersistenceItemId != "")
+                _GamePersistence.SetStateBooleanItem(GamePersistenceItemId, isPressed);
 
             ButtonNode.MaterialOverride = isPressed ? PressedMaterial : UnpressedMaterial;
 
@@ -93,19 +110,45 @@ namespace Isometric3DEngine
                 ButtonNode.Transform.Basis,
                 isPressed ? PressedOffset : Vector3.Zero
             );
+
+            if (isPressed)
+            {
+                EmitSignal(EventHandler.ButtonPressed.ToString());
+                EmitSignal(EventHandler.ButtonPressedWithObject.ToString(), this);
+            }
+            else
+            {
+                EmitSignal(EventHandler.ButtonUnpressed.ToString());
+                EmitSignal(EventHandler.ButtonUnpressedWithObject.ToString(), this);
+            }
+        }
+
+        private void PlaySoundEffects(bool isPressed)
+        {
+            if (isPressed)
+                AudioPlayer.Stream = PressSound;
+            else
+                AudioPlayer.Stream = UnpressSound;
+
+            if (AudioPlayer.Stream != null)
+                AudioPlayer.Play();
         }
 
         // method on ready
         public override void _Ready()
         {
             AudioPlayer = GetNode<SceneManager>("/root/SceneManager").AddAudioPlayerToNode(this);
+
+            _GamePersistence = GetNode<GamePersistence>("/root/GamePersistence");
+            if (GamePersistenceItemId != "")
+                IsPressed = _GamePersistence.GetStateBooleanItem(GamePersistenceItemId);
         }
 
         // method to process
         public override void _PhysicsProcess(double delta)
         {
-            if (IsPressed ^ _PressEffects)
-                TogglePressed(IsPressed);
+            // if (IsPressed ^ _PressEffects)
+            //     TogglePressed(IsPressed);
         }
 
         public void ActivatorAction() { }

@@ -1,9 +1,11 @@
-[gd_scene load_steps=9 format=3 uid="uid://t3nfewge7rhp"]
+[gd_scene load_steps=11 format=3 uid="uid://t3nfewge7rhp"]
 
 [ext_resource type="Script" path="res://addons/isometric_3d_engine/src/interactions/GroundButton.cs" id="1_nlx2h"]
 [ext_resource type="Material" uid="uid://nnb3duyngffu" path="res://materials/semaphore_green.tres" id="2_2ohw7"]
 [ext_resource type="Material" uid="uid://cn2fxffjite1e" path="res://materials/semaphore_gray.tres" id="3_un3nh"]
 [ext_resource type="PackedScene" uid="uid://dof3g5grbxsxa" path="res://addons/isometric_3d_engine/src/interactions/activator.tscn" id="4_7b1uw"]
+[ext_resource type="AudioStream" uid="uid://conxjcly68fdn" path="res://audio/611962__cmartins10__press-button.mp3" id="4_glckb"]
+[ext_resource type="AudioStream" uid="uid://dcs0d0hl0mbpn" path="res://audio/611962__cmartins10__unpress-button.mp3" id="5_vs0w4"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_mmt8w"]
 size = Vector3(1, 0.2, 1)
@@ -23,6 +25,8 @@ ButtonNode = NodePath("Button")
 UnpressedMaterial = ExtResource("2_2ohw7")
 PressedMaterial = ExtResource("3_un3nh")
 PressedOffset = Vector3(0, -0.08, 0)
+PressSound = ExtResource("4_glckb")
+UnpressSound = ExtResource("5_vs0w4")
 
 [node name="Button" type="MeshInstance3D" parent="."]
 mesh = SubResource("BoxMesh_mmt8w")
