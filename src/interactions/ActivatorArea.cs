@@ -45,7 +45,7 @@ namespace Isometric3DEngine
         public float TimeBeforeNextInputAction = 0.0f;
 
         [Export]
-        public string InputName = "Jump";
+        public string InputName = "Choose";
 
         [ExportGroup("Audio")]
         [Export]

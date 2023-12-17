@@ -49,11 +49,23 @@ namespace Isometric3DEngine
         AudioStreamPlayer3D AudioPlayer;
         GamePersistence _GamePersistence;
 
-        // method to toggle the gate open
+        public override void _Ready()
+        {
+            // get sceneManager from root node
+            AudioPlayer = GetNode<SceneManager>("/root/SceneManager").AddAudioPlayerToNode(this);
+
+            _GamePersistence = GetNode<GamePersistence>("/root/GamePersistence");
+            if (GamePersistenceItemId != "")
+                IsOpen = _GamePersistence.GetStateBooleanItem(GamePersistenceItemId);
+            ToggleOpen(IsOpen);
+
+            if (IsOpen && ChestContents != null)
+                ChestContents.Hide();
+        }
+
+        // method to toggle the chest open
         public void ToggleOpen(bool isOpen)
         {
-            PlaySoundEffects(isOpen);
-
             IsOpen = isOpen;
             _OpenEffects = isOpen;
 
@@ -67,31 +79,13 @@ namespace Isometric3DEngine
         public void SetOpen()
         {
             ToggleOpen(true);
+            PlaySoundEffects(IsOpen);
         }
 
         public void SetClosed()
         {
             ToggleOpen(false);
-        }
-
-        public override void _Ready()
-        {
-            // get sceneManager from root node
-            AudioPlayer = GetNode<SceneManager>("/root/SceneManager").AddAudioPlayerToNode(this);
-
-            _GamePersistence = GetNode<GamePersistence>("/root/GamePersistence");
-            if (GamePersistenceItemId != "")
-                IsOpen = _GamePersistence.GetStateBooleanItem(GamePersistenceItemId);
-
-            if (IsOpen && ChestContents != null)
-                ChestContents.Hide();
-        }
-
-        // method to process
-        public override void _Process(double delta)
-        {
-            // if (IsOpen ^ _OpenEffects)
-            //     ToggleOpen(IsOpen);
+            PlaySoundEffects(IsOpen);
         }
 
         public void ActivatorAction()
