@@ -89,7 +89,7 @@ namespace Isometric3DEngine
         // method to toggle the button open
         public void TogglePressed(bool isPressed, bool silently = false)
         {
-            if (!silently)
+            if (!silently && IsPressed != isPressed)
                 PlaySoundEffects(isPressed);
 
             IsPressed = isPressed;
