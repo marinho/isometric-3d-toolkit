@@ -1,0 +1,66 @@
+[gd_scene load_steps=12 format=3 uid="uid://bg3jmwt8gfms6"]
+
+[ext_resource type="Script" path="res://addons/isometric_3d_engine/src/interactions/Lever.cs" id="1_kjbrk"]
+[ext_resource type="AudioStream" uid="uid://conxjcly68fdn" path="res://audio/611962__cmartins10__press-button.mp3" id="4_2bssc"]
+[ext_resource type="AudioStream" uid="uid://dcs0d0hl0mbpn" path="res://audio/611962__cmartins10__unpress-button.mp3" id="5_httjg"]
+[ext_resource type="PackedScene" uid="uid://dof3g5grbxsxa" path="res://addons/isometric_3d_engine/src/interactions/activator.tscn" id="6_2bqd8"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_attt5"]
+albedo_color = Color(1, 0.439216, 0.32549, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qin5j"]
+albedo_color = Color(0, 0.639216, 0.121569, 1)
+rim_enabled = true
+rim = 0.5
+rim_tint = 0.85
+
+[sub_resource type="BoxMesh" id="BoxMesh_n1kxs"]
+material = SubResource("StandardMaterial3D_attt5")
+size = Vector3(0.2, 0.6, 0.2)
+
+[sub_resource type="BoxMesh" id="BoxMesh_mmt8w"]
+size = Vector3(0.8, 0.2, 0.8)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_njnuw"]
+size = Vector3(0.95, 0.3, 0.95)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qdsqi"]
+albedo_color = Color(0.537255, 0.537255, 0.537255, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_4ksmo"]
+material = SubResource("StandardMaterial3D_qdsqi")
+top_radius = 0.1
+bottom_radius = 0.1
+height = 0.1
+
+[node name="Lever" type="Node3D"]
+script = ExtResource("1_kjbrk")
+UnpressedMaterial = SubResource("StandardMaterial3D_attt5")
+PressedMaterial = SubResource("StandardMaterial3D_qin5j")
+RotationPressed = Vector3(0, 0, 70)
+PressSound = ExtResource("4_2bssc")
+UnpressSound = ExtResource("5_httjg")
+
+[node name="RotableContainer" type="Node3D" parent="."]
+unique_name_in_owner = true
+
+[node name="Stick" type="MeshInstance3D" parent="RotableContainer"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
+mesh = SubResource("BoxMesh_n1kxs")
+skeleton = NodePath("../../..")
+
+[node name="Base" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_mmt8w")
+
+[node name="activator" parent="." node_paths=PackedStringArray("Activable") instance=ExtResource("6_2bqd8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+Activable = NodePath("..")
+CanInputAction = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="activator"]
+shape = SubResource("BoxShape3D_njnuw")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 0.0699463, 0)
+mesh = SubResource("CylinderMesh_4ksmo")

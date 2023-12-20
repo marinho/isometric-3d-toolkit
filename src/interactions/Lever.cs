@@ -3,19 +3,10 @@ using System;
 
 namespace Isometric3DEngine
 {
-    public partial class GroundButton : Node3D, IActivable
-    {
-        // property to set gate is open
+    public partial class Lever : Node3D, IActivable
+    { // property to set gate is open
         [Export]
         public bool IsPressed = false;
-
-        // property to define to unpress when player exits the area
-        [Export]
-        public bool UnpressWhenPlayerExits = false;
-
-        // property for the button node
-        [Export]
-        public MeshInstance3D ButtonNode;
 
         // property for spatial material when it's unpressed
         [Export]
@@ -25,9 +16,11 @@ namespace Isometric3DEngine
         [Export]
         public Material PressedMaterial;
 
-        // property for offset when it's pressed
         [Export]
-        public Vector3 PressedOffset;
+        public Vector3 RotationPressed;
+
+        [Export]
+        public Vector3 RotationUnpressed;
 
         [ExportGroup("Game Persistence")]
         [Export]
@@ -45,28 +38,31 @@ namespace Isometric3DEngine
 
         // signal to be emitted when button is pressed
         [Signal]
-        public delegate void ButtonPressedEventHandler();
+        public delegate void LeverPressedEventHandler();
 
         [Signal]
-        public delegate void ButtonPressedWithObjectEventHandler(GroundButton button);
+        public delegate void LeverPressedWithObjectEventHandler(Lever lever);
 
         // signal to be emitted when button is unpressed
         [Signal]
-        public delegate void ButtonUnpressedEventHandler();
+        public delegate void LeverUnpressedEventHandler();
 
         [Signal]
-        public delegate void ButtonUnpressedWithObjectEventHandler(GroundButton button);
+        public delegate void LeverUnpressedWithObjectEventHandler(Lever lever);
 
         AudioStreamPlayer3D AudioPlayer;
         GamePersistence _GamePersistence;
 
+        Node3D _RotableContainer;
+        MeshInstance3D _Stick;
+
         // public enum with the possible event handlers in this class
         public enum EventHandler
         {
-            ButtonPressed,
-            ButtonPressedWithObject,
-            ButtonUnpressed,
-            ButtonUnpressedWithObject,
+            LeverPressed,
+            LeverPressedWithObject,
+            LeverUnpressed,
+            LeverUnpressedWithObject,
         }
 
         bool _PressEffects = false; // used to store that the related effects have been played
@@ -74,17 +70,10 @@ namespace Isometric3DEngine
         public void Activate()
         {
             // set the button as pressed
-            TogglePressed(true);
+            TogglePressed(!IsPressed);
         }
 
-        public void Deactivate()
-        {
-            if (!UnpressWhenPlayerExits)
-                return;
-
-            // set the button as unpressed
-            TogglePressed(false);
-        }
+        public void Deactivate() { }
 
         // method to toggle the button open
         public void TogglePressed(bool isPressed, bool silently = false)
@@ -98,22 +87,18 @@ namespace Isometric3DEngine
             if (IsPersistent && GamePersistenceItemId != "")
                 _GamePersistence.SetStateBooleanItem(GamePersistenceItemId, isPressed);
 
-            ButtonNode.MaterialOverride = isPressed ? PressedMaterial : UnpressedMaterial;
-
-            ButtonNode.Transform = new Transform3D(
-                ButtonNode.Transform.Basis,
-                isPressed ? PressedOffset : Vector3.Zero
-            );
+            _Stick.MaterialOverride = isPressed ? PressedMaterial : UnpressedMaterial;
+            _RotableContainer.Rotation = isPressed ? RotationPressed : RotationUnpressed;
 
             if (isPressed)
             {
-                EmitSignal(EventHandler.ButtonPressed.ToString());
-                EmitSignal(EventHandler.ButtonPressedWithObject.ToString(), this);
+                EmitSignal(EventHandler.LeverPressed.ToString());
+                EmitSignal(EventHandler.LeverPressedWithObject.ToString(), this);
             }
             else
             {
-                EmitSignal(EventHandler.ButtonUnpressed.ToString());
-                EmitSignal(EventHandler.ButtonUnpressedWithObject.ToString(), this);
+                EmitSignal(EventHandler.LeverUnpressed.ToString());
+                EmitSignal(EventHandler.LeverUnpressedWithObject.ToString(), this);
             }
         }
 
@@ -136,9 +121,12 @@ namespace Isometric3DEngine
             _GamePersistence = GetNode<GamePersistence>("/root/GamePersistence");
             if (GamePersistenceItemId != "" && IsPersistent)
             {
-                IsPressed = _GamePersistence.GetStateBooleanItem(GamePersistenceItemId);
-                TogglePressed(IsPressed, true);
+                bool savedIsPressed = _GamePersistence.GetStateBooleanItem(GamePersistenceItemId);
+                TogglePressed(savedIsPressed, true);
             }
+
+            _Stick = GetNode<MeshInstance3D>("%Stick");
+            _RotableContainer = GetNode<Node3D>("%RotableContainer");
         }
 
         // method to process
