@@ -184,7 +184,7 @@ namespace Isometric3DEngine
             AudioPlayer.Play();
         }
 
-        private void SetTriggerInputAvailable(bool value)
+        public void SetTriggerInputAvailable(bool value)
         {
             _SignalManager.EmitSignal(
                 SignalManagerEvent.SetInputControlDownHighlight.ToString(),

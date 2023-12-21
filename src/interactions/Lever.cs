@@ -4,9 +4,13 @@ using System;
 namespace Isometric3DEngine
 {
     public partial class Lever : Node3D, IActivable
-    { // property to set gate is open
+    {
+        // property to set lever is active
         [Export]
         public bool IsPressed = false;
+
+        [Export]
+        public bool CanBeUnpressed = true;
 
         // property for spatial material when it's unpressed
         [Export]
@@ -78,6 +82,9 @@ namespace Isometric3DEngine
         // method to toggle the button open
         public void TogglePressed(bool isPressed, bool silently = false)
         {
+            if (!isPressed && !CanBeUnpressed)
+                return;
+
             if (!silently && IsPressed != isPressed)
                 PlaySoundEffects(isPressed);
 
@@ -118,15 +125,15 @@ namespace Isometric3DEngine
         {
             AudioPlayer = GetNode<SceneManager>("/root/SceneManager").AddAudioPlayerToNode(this);
 
+            _Stick = GetNode<MeshInstance3D>("%Stick");
+            _RotableContainer = GetNode<Node3D>("%RotableContainer");
+
             _GamePersistence = GetNode<GamePersistence>("/root/GamePersistence");
             if (GamePersistenceItemId != "" && IsPersistent)
             {
                 bool savedIsPressed = _GamePersistence.GetStateBooleanItem(GamePersistenceItemId);
                 TogglePressed(savedIsPressed, true);
             }
-
-            _Stick = GetNode<MeshInstance3D>("%Stick");
-            _RotableContainer = GetNode<Node3D>("%RotableContainer");
         }
 
         // method to process

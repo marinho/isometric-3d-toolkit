@@ -49,11 +49,13 @@ namespace Isometric3DEngine
         bool _OpenEffects = false; // used to store that the related effects have been played
         AudioStreamPlayer3D AudioPlayer;
         GamePersistence _GamePersistence;
+        ActivatorArea _ActivatorArea;
 
         public override void _Ready()
         {
             // get sceneManager from root node
             AudioPlayer = GetNode<SceneManager>("/root/SceneManager").AddAudioPlayerToNode(this);
+            _ActivatorArea = GetNode<ActivatorArea>("%Activator");
 
             _GamePersistence = GetNode<GamePersistence>("/root/GamePersistence");
             if (GamePersistenceItemId != "")
@@ -70,10 +72,14 @@ namespace Isometric3DEngine
             IsOpen = isOpen;
             _OpenEffects = isOpen;
 
-            var rotationAngles = isOpen ? OpenChestTopRotationAngles : ClosedChestTopRotationAngles;
-            var chestTop = GetNode<Node3D>("%ChestTop");
+            // disable activatro, so that the input balloon is not shown
+            _ActivatorArea.CanDeactivate = _ActivatorArea.CanActivate = !isOpen;
+            if (isOpen)
+                _ActivatorArea.SetTriggerInputAvailable(false);
 
             // rotate the chest top
+            var rotationAngles = isOpen ? OpenChestTopRotationAngles : ClosedChestTopRotationAngles;
+            var chestTop = GetNode<Node3D>("%ChestTop");
             chestTop.RotationDegrees = rotationAngles;
         }
 
