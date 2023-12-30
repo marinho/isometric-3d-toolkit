@@ -74,6 +74,12 @@ namespace Isometric3DEngine
             }
         }
 
+        public void UpdateMaximumHealth(float value)
+        {
+            MaximumHealth = value;
+            UpdateHealthEvent();
+        }
+
         public void Die()
         {
             EmitSignal(EventHandler.Died.ToString());
