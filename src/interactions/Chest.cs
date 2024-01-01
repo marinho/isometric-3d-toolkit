@@ -6,6 +6,7 @@ namespace Isometric3DEngine
     public interface ICollectable
     {
         void Collect();
+        string GetGamePersistenceItemId();
     }
 
     public partial class Chest : VisibleAndProcessTogether, IActivable
@@ -37,7 +38,7 @@ namespace Isometric3DEngine
         public AudioStream CloseSound;
 
         [Signal]
-        public delegate void ContentCollectedEventHandler();
+        public delegate void ContentCollectedEventHandler(string chestItemId, string contentItemId);
 
         public new enum EventHandler
         {
@@ -104,11 +105,14 @@ namespace Isometric3DEngine
 
             _GamePersistence.SetStateBooleanItem(GamePersistenceItemId, true);
 
-            (ChestContents as ICollectable).Collect();
+            var colectable = ChestContents as ICollectable;
+            colectable.Collect();
 
-            EmitSignal(EventHandler.ContentCollected.ToString());
-
-            GetTree().CreateTimer(.5f).Timeout += () => ChestContents.Hide();
+            EmitSignal(
+                EventHandler.ContentCollected.ToString(),
+                GamePersistenceItemId,
+                colectable.GetGamePersistenceItemId()
+            );
         }
 
         public void Activate()

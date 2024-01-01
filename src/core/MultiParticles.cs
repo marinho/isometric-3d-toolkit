@@ -20,35 +20,36 @@ namespace Isometric3DEngine
         [Export]
         public Godot.Collections.Array<GpuParticles3D> Particles;
 
-        double Lifetime = 0.0f;
+        double _Lifetime = 0.0f;
+        public double Lifetime => _Lifetime;
 
         public override void _Ready()
         {
+            UpdateLifetime();
+
             if (Emitting)
-            {
                 StartEmitters();
-            }
         }
 
-        void GetLifetime()
+        void UpdateLifetime()
         {
             foreach (var particle in Particles)
             {
-                if (particle.Lifetime > Lifetime)
+                if (particle.Lifetime > _Lifetime)
                 {
-                    Lifetime = particle.Lifetime;
+                    _Lifetime = particle.Lifetime;
                 }
             }
         }
 
         public async void StartEmitters()
         {
-            GetLifetime();
+            UpdateLifetime();
 
             foreach (var particle in Particles)
                 particle.Emitting = true;
 
-            await ToSignal(GetTree().CreateTimer(Lifetime), SceneTreeTimer.SignalName.Timeout);
+            await ToSignal(GetTree().CreateTimer(_Lifetime), SceneTreeTimer.SignalName.Timeout);
             DisposeOfEmitters();
 
             if (!OneShot)
