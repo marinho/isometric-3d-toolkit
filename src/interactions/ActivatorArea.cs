@@ -197,7 +197,6 @@ namespace Isometric3DEngine
                     SignalManagerEvent.SetInputControlDownLabel.ToString(),
                     TextForInput
                 );
-                _SignalManager.EmitSignal(SignalManagerEvent.SetPlayerCanJump.ToString(), false);
 
                 _ActionInputBalloon?.ShowWithText(TextForInput);
             }
@@ -206,7 +205,6 @@ namespace Isometric3DEngine
                 _SignalManager.EmitSignal(
                     SignalManagerEvent.SetInputControlDownLabelToDefault.ToString()
                 );
-                _SignalManager.EmitSignal(SignalManagerEvent.SetPlayerCanJump.ToString(), true);
 
                 _ActionInputBalloon?.Hide();
             }
