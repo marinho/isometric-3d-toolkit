@@ -49,7 +49,7 @@ namespace Isometric3DEngine
 
         bool _OpenEffects = false; // used to store that the related effects have been played
         AudioStreamPlayer3D AudioPlayer;
-        GamePersistence _GamePersistence;
+        GameState _GameState;
         ActivatorArea _ActivatorArea;
 
         public override void _Ready()
@@ -58,9 +58,9 @@ namespace Isometric3DEngine
             AudioPlayer = GetNode<SceneManager>("/root/SceneManager").AddAudioPlayerToNode(this);
             _ActivatorArea = GetNode<ActivatorArea>("%Activator");
 
-            _GamePersistence = GetNode<GamePersistence>("/root/GamePersistence");
+            _GameState = GetNode<GameState>("/root/GameState");
             if (GamePersistenceItemId != "")
-                IsOpen = _GamePersistence.GetStateBooleanItem(GamePersistenceItemId);
+                IsOpen = _GameState.GetStateBooleanItem(GamePersistenceItemId);
             ToggleOpen(IsOpen);
 
             if (IsOpen && ChestContents != null)
@@ -103,7 +103,7 @@ namespace Isometric3DEngine
 
             SetOpen();
 
-            _GamePersistence.SetStateBooleanItem(GamePersistenceItemId, true);
+            _GameState.SetStateBooleanItem(GamePersistenceItemId, true);
 
             var colectable = ChestContents as ICollectable;
             colectable.Collect();

@@ -55,7 +55,7 @@ namespace Isometric3DEngine
         public delegate void LeverUnpressedWithObjectEventHandler(Lever lever);
 
         AudioStreamPlayer3D AudioPlayer;
-        GamePersistence _GamePersistence;
+        GameState _GameState;
 
         Node3D _RotableContainer;
         MeshInstance3D _Stick;
@@ -92,7 +92,7 @@ namespace Isometric3DEngine
             _PressEffects = isPressed;
 
             if (IsPersistent && GamePersistenceItemId != "")
-                _GamePersistence.SetStateBooleanItem(GamePersistenceItemId, isPressed);
+                _GameState.SetStateBooleanItem(GamePersistenceItemId, isPressed);
 
             _Stick.MaterialOverride = isPressed ? PressedMaterial : UnpressedMaterial;
             _RotableContainer.Rotation = isPressed ? RotationPressed : RotationUnpressed;
@@ -128,10 +128,10 @@ namespace Isometric3DEngine
             _Stick = GetNode<MeshInstance3D>("%Stick");
             _RotableContainer = GetNode<Node3D>("%RotableContainer");
 
-            _GamePersistence = GetNode<GamePersistence>("/root/GamePersistence");
+            _GameState = GetNode<GameState>("/root/GameState");
             if (GamePersistenceItemId != "" && IsPersistent)
             {
-                bool savedIsPressed = _GamePersistence.GetStateBooleanItem(GamePersistenceItemId);
+                bool savedIsPressed = _GameState.GetStateBooleanItem(GamePersistenceItemId);
                 TogglePressed(savedIsPressed, true);
             }
         }

@@ -58,7 +58,7 @@ namespace Isometric3DEngine
         public delegate void ButtonUnpressedWithObjectEventHandler(GroundButton button);
 
         AudioStreamPlayer3D AudioPlayer;
-        GamePersistence _GamePersistence;
+        GameState _GameState;
 
         // public enum with the possible event handlers in this class
         public enum EventHandler
@@ -96,7 +96,7 @@ namespace Isometric3DEngine
             _PressEffects = isPressed;
 
             if (IsPersistent && GamePersistenceItemId != "")
-                _GamePersistence.SetStateBooleanItem(GamePersistenceItemId, isPressed);
+                _GameState.SetStateBooleanItem(GamePersistenceItemId, isPressed);
 
             ButtonNode.MaterialOverride = isPressed ? PressedMaterial : UnpressedMaterial;
 
@@ -133,10 +133,10 @@ namespace Isometric3DEngine
         {
             AudioPlayer = GetNode<SceneManager>("/root/SceneManager").AddAudioPlayerToNode(this);
 
-            _GamePersistence = GetNode<GamePersistence>("/root/GamePersistence");
+            _GameState = GetNode<GameState>("/root/GameState");
             if (GamePersistenceItemId != "" && IsPersistent)
             {
-                IsPressed = _GamePersistence.GetStateBooleanItem(GamePersistenceItemId);
+                IsPressed = _GameState.GetStateBooleanItem(GamePersistenceItemId);
                 TogglePressed(IsPressed, true);
             }
         }
