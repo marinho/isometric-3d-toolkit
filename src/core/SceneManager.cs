@@ -15,7 +15,7 @@ namespace Isometric3DEngine
 
         string PlayerName = "%AudioStreamPlayer3D";
 
-        string ScenePathToLoad;
+        string CurrentLoadedScenePath;
         Godot.Collections.Dictionary<string, Variant> ParametersForNextScene;
 
         public override void _Ready()
@@ -36,9 +36,15 @@ namespace Isometric3DEngine
 
         public void LoadScene(string scenePath)
         {
-            GD.Print($"Teleporting to {scenePath}");
-            ScenePathToLoad = scenePath;
-            GetTree().ChangeSceneToFile(scenePath);
+            GD.Print($"Loading scene at {scenePath}");
+            CurrentLoadedScenePath = scenePath;
+
+            var sceneTransition = GetNode("/root/SceneTransition");
+            sceneTransition.Call("change_scene", scenePath);
+            // sceneTransition.Connect("after_scene_change", new Callable(this, nameof(SetGamePaused)));
+            // InGameUi.activate_for_game()
+
+            // GetTree().ChangeSceneToFile(scenePath);
         }
 
         public void LoadSceneWithParams(
@@ -52,7 +58,7 @@ namespace Isometric3DEngine
 
         public Godot.Collections.Dictionary<string, Variant> GetSceneParams(string scenePath)
         {
-            if (scenePath != ScenePathToLoad)
+            if (scenePath != CurrentLoadedScenePath)
                 return null;
 
             return ParametersForNextScene;
