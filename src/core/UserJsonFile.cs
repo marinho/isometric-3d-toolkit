@@ -27,7 +27,7 @@ namespace Isometric3DEngine
         public string LoadAsJson()
         {
             if (!FileAccess.FileExists(FilePath))
-                SaveDictionary(Json.ParseString("{}").AsGodotDictionary());
+                throw new FileNotFoundException($"File {FilePath} doesn't exist.");
 
             var fp = FileAccess.Open(FilePath, FileAccess.ModeFlags.Read);
             string json = fp.GetAsText();
@@ -95,4 +95,10 @@ namespace Isometric3DEngine
             );
         }
     }
+}
+
+public class FileNotFoundException : System.Exception
+{
+    public FileNotFoundException(string message)
+        : base(message) { }
 }
