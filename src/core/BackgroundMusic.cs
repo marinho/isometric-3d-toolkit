@@ -14,5 +14,20 @@ namespace Isometric3DEngine
         {
             Play();
         }
+
+        public void SetMusicOn(bool value)
+        {
+            if (Playing == value)
+                return;
+
+            if (value)
+            {
+                Play();
+            }
+            else
+            {
+                Stop();
+            }
+        }
     }
 }
