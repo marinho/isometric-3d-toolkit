@@ -9,32 +9,38 @@ namespace Isometric3DEngine
         public bool IsActive = false;
 
         [Export]
-        public AnimationPlayer AnimationPlayer;
-
-        [Export]
         public float AnimationSpeed = 1.0f;
 
         [Export]
         public string AnimationName = "platform_animation";
 
+        [Export]
+        public float WaitToStart = 0.0f;
+
+        AnimationPlayer _AnimationPlayer;
+
         public override void _Ready()
         {
+            _AnimationPlayer = GetNode<AnimationPlayer>("%AnimationPlayer");
+
             if (IsActive)
                 Activate();
         }
 
         public void ActivatorAction() { }
 
-        public void Activate()
+        public async void Activate()
         {
+            await ToSignal(GetTree().CreateTimer(WaitToStart), SceneTreeTimer.SignalName.Timeout);
+
             IsActive = true;
-            AnimationPlayer?.Play(AnimationName, customSpeed: AnimationSpeed);
+            _AnimationPlayer?.Play(AnimationName, customSpeed: AnimationSpeed);
         }
 
         public void Deactivate()
         {
             IsActive = false;
-            AnimationPlayer?.Stop();
+            _AnimationPlayer?.Stop();
         }
     }
 }

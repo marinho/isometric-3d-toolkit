@@ -13,10 +13,6 @@ namespace Isometric3DEngine
         [Export]
         public bool UnpressWhenPlayerExits = false;
 
-        // property for the button node
-        [Export]
-        public MeshInstance3D ButtonNode;
-
         // property for spatial material when it's unpressed
         [Export]
         public Material UnpressedMaterial;
@@ -59,6 +55,7 @@ namespace Isometric3DEngine
 
         AudioStreamPlayer3D AudioPlayer;
         GameState _GameState;
+        MeshInstance3D ButtonNode;
 
         // public enum with the possible event handlers in this class
         public enum EventHandler
@@ -132,6 +129,7 @@ namespace Isometric3DEngine
         public override void _Ready()
         {
             AudioPlayer = GetNode<SceneManager>("/root/SceneManager").AddAudioPlayerToNode(this);
+            ButtonNode = GetNode<MeshInstance3D>("%Button");
 
             _GameState = GetNode<GameState>("/root/GameState");
             if (GamePersistenceItemId != "" && IsPersistent)
