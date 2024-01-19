@@ -1,5 +1,5 @@
 shader_type spatial;
-render_mode unshaded, shadows_disabled, cull_disabled;
+render_mode unshaded, shadows_disabled, cull_disabled, depth_draw_opaque;
 
 uniform float sway_strength = 0.1;
 uniform float sway_height = 0.5;
@@ -15,5 +15,5 @@ void vertex() {
 
 void fragment() {
 	ALBEDO = color.rgb;
-	ALPHA = color.a;
+//	ALPHA = color.a; // this line was causing an overlapping issue with water behind
 }

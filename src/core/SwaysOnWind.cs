@@ -28,7 +28,8 @@ namespace Isometric3DEngine
         // Called when the node enters the scene tree for the first time.
         public override void _Ready()
         {
-            ApplyMaterialOverride();
+            if (SetMaterialOverride)
+                ApplyMaterialOverride();
         }
 
         async void ApplyMaterialOverride()
@@ -45,8 +46,7 @@ namespace Isometric3DEngine
                 var meshes = nodeWithMeshes.GetChildren().OfType<MeshInstance3D>();
                 foreach (var mesh in meshes)
                 {
-                    if (SetMaterialOverride)
-                        mesh.MaterialOverride = LeavesMaterial;
+                    mesh.MaterialOverride = LeavesMaterial;
                 }
             }
         }
