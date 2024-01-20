@@ -151,7 +151,7 @@ namespace Isometric3DEngine
 
         public void _OnBodyExited(Node3D body)
         {
-            if (!BodyIsAccepted(body) || !CanActivate)
+            if (!BodyIsAccepted(body) || !CanDeactivate)
                 return;
 
             if (CanInputAction)
