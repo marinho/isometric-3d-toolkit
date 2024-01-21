@@ -21,6 +21,9 @@ namespace Isometric3DEngine
         public override void _Ready()
         {
             AudioPlayer = GetNode<AudioStreamPlayer3D>(PlayerName);
+
+            var signalManager = GetNode<SignalManager>("/root/SignalManager");
+            signalManager.GameStarted += () => ClearSceneParameters();
         }
 
         public AudioStreamPlayer3D AddAudioPlayerToNode(Node3D node)
@@ -62,6 +65,11 @@ namespace Isometric3DEngine
                 return null;
 
             return ParametersForNextScene;
+        }
+
+        public void ClearSceneParameters()
+        {
+            ParametersForNextScene = null;
         }
     }
 }
