@@ -53,11 +53,16 @@ namespace Isometric3DEngine
 
         public void IncreaseHealth(float value, bool dieIfOverflow = false)
         {
+            SetCurrentHealth(CurrentHealth + value, dieIfOverflow);
+        }
+
+        public void SetCurrentHealth(float value, bool dieIfOverflow = false)
+        {
             if (HealthIsInfinite)
                 return;
 
             // increase the ink volume
-            CurrentHealth += value;
+            CurrentHealth = value;
             UpdateHealthEvent();
 
             // if the player has more ink than the maximum, lose the game
