@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://addons/isometric_3d_engine/src/interactions/ActivatorArea.cs" id="1_eiv6h"]
 
-[node name="activator" type="Area3D"]
+[node name="Activator" type="Area3D"]
 collision_mask = 2
 script = ExtResource("1_eiv6h")
 
