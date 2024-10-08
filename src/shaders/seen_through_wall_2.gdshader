@@ -1,7 +1,7 @@
 /*
 	アウトラインシルエット Pass #2 シェーダー by あるる（きのもと 結衣）
 	Outline Silhouette Pass #2 Shader by Yui Kinomoto @arlez80
-	
+
 	Source: https://godotshaders.com/shader/outline-silhouette-shader/
 
 	MIT License
