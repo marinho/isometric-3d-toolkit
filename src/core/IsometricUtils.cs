@@ -8,6 +8,7 @@ namespace Isometric3DEngine
         static float cosAngle = Mathf.Cos(Mathf.DegToRad(angleDegrees));
         static float sinAngle = Mathf.Sin(Mathf.DegToRad(angleDegrees));
 
+        // DEPRECATED
         public static Vector2 InputDirectionToIsometric(Vector2 point)
         {
             return new Vector2(
